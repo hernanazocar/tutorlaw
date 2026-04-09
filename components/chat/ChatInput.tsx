@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, KeyboardEvent } from 'react';
+import { useRef, KeyboardEvent } from 'react';
 
 interface ChatInputProps {
   value: string;
@@ -39,7 +39,7 @@ export function ChatInput({
   };
 
   return (
-    <div className="flex items-end gap-2 p-4 bg-white border-t border-[#e8e4da]">
+    <div className="flex items-end gap-3 p-5 bg-white border-t border-[#e9ecef]">
       <textarea
         ref={textareaRef}
         value={value}
@@ -48,14 +48,17 @@ export function ChatInput({
         disabled={disabled}
         placeholder={placeholder}
         rows={1}
-        className="flex-1 resize-none font-sans text-sm md:text-base bg-[#f9f7f3] border border-[#e8e4da] rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#c9a96e] focus:border-transparent disabled:opacity-50 max-h-[200px]"
+        className="flex-1 resize-none font-sans text-[15px] bg-[#f8f9fa] border border-[#e9ecef] rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0066ff] focus:border-transparent disabled:opacity-50 max-h-[200px] placeholder:text-[#adb5bd]"
       />
       <button
         onClick={onSend}
         disabled={disabled || !value.trim()}
-        className="px-5 py-3 bg-[#c9a96e] text-[#0a1628] rounded-xl font-sans font-semibold hover:bg-[#e8d5a3] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
+        className="px-6 py-3 bg-[#0066ff] text-white rounded-xl font-sans font-medium hover:bg-[#0052cc] transition-all shadow-sm hover:shadow disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
       >
-        Enviar
+        <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
       </button>
     </div>
   );

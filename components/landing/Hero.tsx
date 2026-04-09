@@ -1,6 +1,6 @@
 'use client';
 
-import { ChatWindow } from '../chat/ChatWindow';
+import { ChatDemo } from './ChatDemo';
 import { Button } from '../ui/Button';
 import { Logo } from '../ui/Logo';
 
@@ -123,9 +123,9 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Right side - Chat Window */}
-          <div className="lg:h-[700px] h-[600px] rounded-3xl overflow-hidden shadow-2xl border border-[#e9ecef]">
-            <ChatWindow anonymous={true} />
+          {/* Right side - Chat Demo */}
+          <div className="lg:h-[700px] h-[600px]">
+            <ChatDemo />
           </div>
         </div>
 

@@ -113,7 +113,7 @@ export function Features() {
   ];
 
   return (
-    <div className="bg-white py-24">
+    <div className="bg-[#f8f9fa] py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-[#e9ecef] rounded-full text-xs sm:text-sm font-medium text-[#6c757d] mb-4 sm:mb-6">
@@ -131,20 +131,20 @@ export function Features() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl border border-[#e9ecef] p-6 hover:shadow-lg transition-shadow relative group"
+              className="bg-[#0066ff] rounded-2xl border-2 border-[#0066ff] p-6 hover:shadow-xl hover:scale-105 transition-all duration-300 relative group"
             >
               {feature.tag && (
-                <div className="absolute top-4 right-4 px-3 py-1 bg-[#0066ff] text-white text-xs font-semibold rounded-full">
+                <div className="absolute top-4 right-4 px-3 py-1 bg-white text-[#0066ff] text-xs font-semibold rounded-full">
                   {feature.tag}
                 </div>
               )}
-              <div className="w-12 h-12 mb-4 text-[#0066ff]">
+              <div className="w-12 h-12 mb-4 text-white">
                 <FeatureIcon name={feature.icon} />
               </div>
-              <h3 className="font-sans font-bold text-lg text-[#212529] mb-2">
+              <h3 className="font-sans font-bold text-lg text-white mb-2">
                 {feature.title}
               </h3>
-              <p className="font-sans text-sm text-[#6c757d] leading-relaxed">
+              <p className="font-sans text-sm text-white/90 leading-relaxed">
                 {feature.description}
               </p>
             </div>

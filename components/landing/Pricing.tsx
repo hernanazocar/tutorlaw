@@ -55,22 +55,22 @@ export function Pricing() {
   ];
 
   return (
-    <div className="bg-white py-24">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="font-sans text-4xl md:text-5xl font-bold text-[#212529] mb-4">
+    <div className="bg-white py-16 sm:py-20 md:py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold text-[#212529] mb-3 sm:mb-4 px-4">
             Inversión que vale la pena
           </h2>
-          <p className="font-sans text-xl text-[#6c757d] max-w-2xl mx-auto">
+          <p className="font-sans text-base sm:text-lg md:text-xl text-[#6c757d] max-w-2xl mx-auto px-4">
             Menos de lo que gastas en un café al día. Más barato que reprobar un ramo.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
           {plans.map((plan, index) => (
             <div
               key={index}
-              className={`rounded-2xl border-2 p-8 relative ${
+              className={`rounded-2xl border-2 p-6 sm:p-8 relative ${
                 plan.popular
                   ? 'border-[#0066ff] shadow-xl scale-105'
                   : 'border-[#e9ecef]'

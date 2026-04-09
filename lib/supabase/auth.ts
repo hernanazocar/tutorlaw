@@ -13,23 +13,15 @@ export async function signUpWithEmail(
     email,
     password,
     options: {
+      emailRedirectTo: `${window.location.origin}/auth/callback`,
       data: {
         nombre,
-        universidad: universidad || null,
+        universidad: universidad || '',
       },
     },
   });
 
   if (error) throw error;
-
-  // Update profile with additional info
-  if (data.user && universidad) {
-    await supabase
-      .from('profiles')
-      .update({ universidad })
-      .eq('id', data.user.id);
-  }
-
   return data;
 }
 

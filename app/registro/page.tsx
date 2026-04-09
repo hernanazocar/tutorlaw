@@ -24,7 +24,9 @@ export default function RegistroPage() {
     setSuccess('');
 
     try {
-      await signUpWithEmail(email, password, nombre, universidad);
+      console.log('Starting registration...');
+      const result = await signUpWithEmail(email, password, nombre, universidad);
+      console.log('Registration result:', result);
       setSuccess('¡Cuenta creada! Revisa tu email para confirmar tu cuenta.');
 
       // Redirect after 3 seconds
@@ -32,6 +34,7 @@ export default function RegistroPage() {
         router.push('/login');
       }, 3000);
     } catch (err: any) {
+      console.error('Registration error:', err);
       setError(err.message || 'Error al crear cuenta');
       setLoading(false);
     }

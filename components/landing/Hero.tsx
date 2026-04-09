@@ -42,8 +42,8 @@ export function Hero() {
               Potenciado por IA avanzada
             </div>
 
-            <h1 className="font-sans text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-bold text-[#212529] leading-[0.95] tracking-tight">
-              Tu tutor de derecho con <span className="text-[#0066ff]">IA</span>, siempre disponible
+            <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-bold text-[#212529] leading-[1.1] tracking-tight">
+              Tu tutor de derecho con IA, <span className="text-[#0066ff]">siempre disponible</span>
             </h1>
 
             <p className="font-sans text-base sm:text-lg md:text-xl text-[#6c757d] leading-relaxed max-w-xl">

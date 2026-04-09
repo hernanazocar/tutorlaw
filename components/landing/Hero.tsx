@@ -7,19 +7,22 @@ import { Logo } from '../ui/Logo';
 export function Hero() {
   return (
     <div className="min-h-screen bg-[#f1f3f5]">
-      <div className="max-w-7xl mx-auto px-6 py-6">
-        {/* Header */}
-        <header className="flex items-center justify-between mb-16">
-          <Logo size="md" showText={true} />
-          <div className="flex gap-3">
-            <Button variant="ghost" size="sm">
-              Iniciar sesión
-            </Button>
-            <Button variant="primary" size="sm">
-              Probar gratis
-            </Button>
-          </div>
-        </header>
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-white border-b border-[#e9ecef] shadow-sm">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <Logo size="md" showText={true} />
+        <div className="flex gap-3">
+          <Button variant="ghost" size="sm">
+            Iniciar sesión
+          </Button>
+          <Button variant="primary" size="sm">
+            Probar gratis
+          </Button>
+        </div>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto px-6 py-16">
 
         {/* Hero Content */}
         <div className="grid lg:grid-cols-2 gap-16 items-center">

@@ -6,7 +6,7 @@ import { Logo } from '../ui/Logo';
 
 export function Hero() {
   return (
-    <div className="min-h-screen bg-[#f8f9fa]">
+    <div className="min-h-screen bg-[#f1f3f5]">
       <div className="max-w-7xl mx-auto px-6 py-6">
         {/* Header */}
         <header className="flex items-center justify-between mb-16">

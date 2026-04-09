@@ -40,25 +40,33 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-  // Protect /app/* routes - require authentication
-  if (request.nextUrl.pathname.startsWith('/app') && !user) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    // Protect /app/* routes - require authentication
+    if (request.nextUrl.pathname.startsWith('/app') && !user) {
+      console.log('No user found in middleware, redirecting to login');
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+
+    // Redirect to app if already logged in and trying to access login/registro
+    if (
+      (request.nextUrl.pathname === '/login' ||
+        request.nextUrl.pathname === '/registro') &&
+      user
+    ) {
+      console.log('User already logged in, redirecting to app');
+      return NextResponse.redirect(new URL('/app/chat', request.url));
+    }
+
+    console.log('Middleware passed, user:', user?.email || 'none');
+    return response;
+  } catch (error) {
+    console.error('Middleware error:', error);
+    return response;
   }
-
-  // Redirect to app if already logged in and trying to access login/registro
-  if (
-    (request.nextUrl.pathname === '/login' ||
-      request.nextUrl.pathname === '/registro') &&
-    user
-  ) {
-    return NextResponse.redirect(new URL('/app/chat', request.url));
-  }
-
-  return response;
 }
 
 export const config = {

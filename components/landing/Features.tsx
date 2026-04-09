@@ -131,17 +131,17 @@ export function Features() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl border border-[#e9ecef] p-6 hover:shadow-lg transition-shadow relative group"
+              className="bg-white rounded-2xl border border-[#e9ecef] p-6 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 relative group cursor-pointer"
             >
               {feature.tag && (
                 <div className="absolute top-4 right-4 px-3 py-1 bg-[#0066ff] text-white text-xs font-semibold rounded-full">
                   {feature.tag}
                 </div>
               )}
-              <div className="w-12 h-12 mb-4 text-[#0066ff]">
+              <div className="w-12 h-12 mb-4 text-[#0066ff] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
                 <FeatureIcon name={feature.icon} />
               </div>
-              <h3 className="font-sans font-bold text-lg text-[#212529] mb-2">
+              <h3 className="font-sans font-bold text-lg text-[#212529] mb-2 group-hover:text-[#0066ff] transition-colors duration-300">
                 {feature.title}
               </h3>
               <p className="font-sans text-sm text-[#6c757d] leading-relaxed">

@@ -56,12 +56,12 @@ export function ChatDemo() {
   // Auto-scroll cuando aparecen nuevos mensajes
   useEffect(() => {
     if (messagesContainerRef.current) {
-      setTimeout(() => {
-        messagesContainerRef.current?.scrollTo({
-          top: messagesContainerRef.current.scrollHeight,
-          behavior: 'smooth'
-        });
-      }, 100);
+      // Usar requestAnimationFrame para mejor timing y evitar mover la página
+      requestAnimationFrame(() => {
+        if (messagesContainerRef.current) {
+          messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+        }
+      });
     }
   }, [messages, isTyping]);
 

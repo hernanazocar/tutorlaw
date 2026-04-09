@@ -52,20 +52,20 @@ export function Features() {
 
   return (
     <div className="bg-white py-24">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-[#e9ecef] rounded-full text-sm font-medium text-[#6c757d] mb-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-12 sm:mb-16">
+          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-[#e9ecef] rounded-full text-xs sm:text-sm font-medium text-[#6c757d] mb-4 sm:mb-6">
             7 formas de estudiar
           </div>
-          <h2 className="font-sans text-4xl md:text-5xl font-bold text-[#212529] mb-4">
+          <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold text-[#212529] mb-3 sm:mb-4 px-4">
             Elige cómo quieres aprender
           </h2>
-          <p className="font-sans text-xl text-[#6c757d] max-w-2xl mx-auto">
+          <p className="font-sans text-base sm:text-lg md:text-xl text-[#6c757d] max-w-2xl mx-auto px-4">
             No es solo un chat. TutorLaw se adapta a tu estilo de estudio y lo que necesitas en cada momento.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {features.map((feature, index) => (
             <div
               key={index}

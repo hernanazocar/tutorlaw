@@ -43,7 +43,7 @@ export function Hero() {
             <h1 className="font-sans text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#212529] leading-tight tracking-tight">
               Tu tutor de derecho
               <span className="block">
-                con <span className="text-[#0066ff]">IA 24/7</span>
+                <span className="text-[#0066ff]">24/7</span>
               </span>
             </h1>
 

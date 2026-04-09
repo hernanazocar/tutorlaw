@@ -41,10 +41,9 @@ export function Hero() {
             </div>
 
             <h1 className="font-sans text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#212529] leading-tight tracking-tight">
-              Estudia derecho con
+              Tu tutor de derecho
               <span className="block">
-                <span className="text-[#212529]">Tutor</span>
-                <span className="text-[#0066ff]">Law</span>
+                con <span className="text-[#0066ff]">IA 24/7</span>
               </span>
             </h1>
 

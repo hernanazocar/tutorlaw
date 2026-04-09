@@ -51,11 +51,18 @@ export function ChatDemo() {
   const [messages, setMessages] = useState<DemoMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll cuando aparecen nuevos mensajes
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesContainerRef.current) {
+      setTimeout(() => {
+        messagesContainerRef.current?.scrollTo({
+          top: messagesContainerRef.current.scrollHeight,
+          behavior: 'smooth'
+        });
+      }, 100);
+    }
   }, [messages, isTyping]);
 
   useEffect(() => {
@@ -104,7 +111,7 @@ export function ChatDemo() {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-6 py-6 space-y-4">
+      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto px-6 py-6 space-y-4">
         {messages.map((message, index) => (
           <div
             key={index}
@@ -148,9 +155,6 @@ export function ChatDemo() {
             </div>
           </div>
         )}
-
-        {/* Elemento invisible para auto-scroll */}
-        <div ref={messagesEndRef} />
       </div>
 
       {/* Footer con badge */}

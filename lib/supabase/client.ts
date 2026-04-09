@@ -34,8 +34,12 @@ const cookieStorage = {
 };
 
 export function createSupabaseClient() {
-  const supabaseUrl = 'https://kzwtmnwmndupbctchwne.supabase.co';
-  const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt6d3RtbndtbmR1cGJjdGNod25lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3NDY0NzIsImV4cCI6MjA5MTMyMjQ3Mn0.pi3bF2qMRD_Ab-8yXNaenrKNbCsuDNdoav3-ratltx4';
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error('Missing Supabase environment variables');
+  }
 
   return createClient(supabaseUrl, supabaseAnonKey, {
     auth: {

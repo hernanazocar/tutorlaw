@@ -1,3 +1,6 @@
+import Link from 'next/link';
+import { Button } from '../ui/Button';
+
 const FeatureIcon = ({ name }: { name: string }) => {
   const icons: Record<string, any> = {
     tutor: (
@@ -149,6 +152,18 @@ export function Features() {
               </p>
             </div>
           ))}
+        </div>
+
+        {/* CTA inline */}
+        <div className="mt-16 text-center">
+          <Link href="/registro">
+            <Button variant="primary" size="lg">
+              Empieza a estudiar gratis
+            </Button>
+          </Link>
+          <p className="mt-4 text-sm text-[#6c757d]">
+            5 preguntas gratis · Sin tarjeta · Menos de 1 minuto
+          </p>
         </div>
       </div>
     </div>

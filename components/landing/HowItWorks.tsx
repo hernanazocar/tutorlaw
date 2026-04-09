@@ -1,3 +1,6 @@
+import Link from 'next/link';
+import { Button } from '../ui/Button';
+
 export function HowItWorks() {
   return (
     <div className="relative bg-gradient-to-br from-[#0066ff] to-[#0052cc] py-16 sm:py-20 md:py-24 overflow-hidden">
@@ -125,6 +128,18 @@ export function HowItWorks() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* CTA inline */}
+        <div className="mt-16 text-center">
+          <Link href="/registro">
+            <Button variant="secondary" size="lg" className="bg-white text-[#0066ff] hover:bg-white/90 font-bold shadow-lg">
+              Pruébalo gratis ahora
+            </Button>
+          </Link>
+          <p className="mt-4 text-sm text-white/80">
+            Sin instalación · Sin tarjeta · Empieza en menos de 1 minuto
+          </p>
         </div>
       </div>
     </div>

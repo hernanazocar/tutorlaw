@@ -4,6 +4,7 @@
 
 - **Repositorio GitHub:** https://github.com/hernanazocar/tutorlaw
 - **Proyecto Vercel:** vinculado automáticamente
+- **Producción:** https://tutorlaw.vercel.app ✅ LIVE
 
 ---
 
@@ -86,7 +87,7 @@ vercel
 
 - **Repositorio:** https://github.com/hernanazocar/tutorlaw
 - **Vercel Dashboard:** https://vercel.com/hernan-azocar/tutorlaw
-- **Producción:** (se generará después del primer deploy)
+- **Producción:** https://tutorlaw.vercel.app ✅
 
 ---
 

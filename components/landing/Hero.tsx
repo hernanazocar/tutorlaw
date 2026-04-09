@@ -27,12 +27,12 @@ export function Hero() {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-6 py-16">
+      <div className="max-w-7xl mx-auto px-6 py-12 sm:py-16">
 
         {/* Hero Content */}
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           {/* Left side - Text */}
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#e6f0ff] text-[#0066ff] rounded-full text-sm font-medium">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
@@ -40,9 +40,9 @@ export function Hero() {
               Potenciado por IA avanzada
             </div>
 
-            <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#212529] leading-tight tracking-tight">
+            <h1 className="font-sans text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-bold text-[#212529] leading-[1.1] tracking-tight">
               Tu tutor de derecho
-              <span className="block">
+              <span className="block mt-2">
                 <span className="text-[#0066ff]">24/7</span>
               </span>
             </h1>

@@ -145,16 +145,22 @@ export function Hero() {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-6 sm:gap-8 md:gap-12 mt-16 sm:mt-20 md:mt-24 pt-12 border-t border-[#e9ecef]">
           <div className="text-center">
-            <div className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold text-[#0066ff]">7</div>
-            <div className="font-sans text-xs sm:text-sm text-[#6c757d] mt-1 sm:mt-2">Modos de estudio</div>
+            <div className="bg-[#0066ff] rounded-2xl px-6 py-8 mx-auto max-w-[200px]">
+              <div className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold text-white">7</div>
+              <div className="font-sans text-xs sm:text-sm text-white/90 mt-2">Modos de estudio</div>
+            </div>
           </div>
           <div className="text-center">
-            <div className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold text-[#0066ff]">24/7</div>
-            <div className="font-sans text-xs sm:text-sm text-[#6c757d] mt-1 sm:mt-2">Siempre disponible</div>
+            <div className="bg-[#0066ff] rounded-2xl px-6 py-8 mx-auto max-w-[200px]">
+              <div className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold text-white">24/7</div>
+              <div className="font-sans text-xs sm:text-sm text-white/90 mt-2">Siempre disponible</div>
+            </div>
           </div>
           <div className="text-center">
-            <div className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold text-[#0066ff]">∞</div>
-            <div className="font-sans text-xs sm:text-sm text-[#6c757d] mt-1 sm:mt-2">Paciencia infinita</div>
+            <div className="bg-[#0066ff] rounded-2xl px-6 py-8 mx-auto max-w-[200px]">
+              <div className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold text-white">∞</div>
+              <div className="font-sans text-xs sm:text-sm text-white/90 mt-2">Paciencia infinita</div>
+            </div>
           </div>
         </div>
       </div>

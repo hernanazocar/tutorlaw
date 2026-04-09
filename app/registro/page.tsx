@@ -1,28 +1,50 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Logo } from '@/components/ui/Logo';
 import { Button } from '@/components/ui/Button';
+import { signUpWithEmail, signInWithGoogle } from '@/lib/supabase/auth';
 
 export default function RegistroPage() {
+  const router = useRouter();
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [universidad, setUniversidad] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setSuccess('');
 
-    // TODO: Implementar registro con Supabase en Fase 2
-    setTimeout(() => {
+    try {
+      await signUpWithEmail(email, password, nombre, universidad);
+      setSuccess('¡Cuenta creada! Revisa tu email para confirmar tu cuenta.');
+
+      // Redirect after 3 seconds
+      setTimeout(() => {
+        router.push('/login');
+      }, 3000);
+    } catch (err: any) {
+      setError(err.message || 'Error al crear cuenta');
       setLoading(false);
-      setError('Función de registro próximamente');
-    }, 1000);
+    }
+  };
+
+  const handleGoogleSignup = async () => {
+    try {
+      setLoading(true);
+      await signInWithGoogle();
+    } catch (err: any) {
+      setError(err.message || 'Error al registrarse con Google');
+      setLoading(false);
+    }
   };
 
   return (
@@ -142,6 +164,13 @@ export default function RegistroPage() {
                 </div>
               )}
 
+              {/* Success */}
+              {success && (
+                <div className="p-3 bg-green-50 border border-green-200 rounded-xl">
+                  <p className="font-sans text-sm text-green-700">{success}</p>
+                </div>
+              )}
+
               {/* Submit */}
               <Button
                 type="submit"
@@ -165,7 +194,13 @@ export default function RegistroPage() {
             </div>
 
             {/* Google Signup */}
-            <Button variant="secondary" size="lg" className="w-full flex items-center justify-center gap-2">
+            <Button
+              variant="secondary"
+              size="lg"
+              className="w-full flex items-center justify-center gap-2"
+              onClick={handleGoogleSignup}
+              disabled={loading}
+            >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                 <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>

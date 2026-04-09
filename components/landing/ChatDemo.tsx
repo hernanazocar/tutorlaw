@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Logo } from '../ui/Logo';
 
 interface DemoMessage {
@@ -51,6 +51,12 @@ export function ChatDemo() {
   const [messages, setMessages] = useState<DemoMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll cuando aparecen nuevos mensajes
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, isTyping]);
 
   useEffect(() => {
     if (currentIndex >= DEMO_CONVERSATION.length) {
@@ -142,6 +148,9 @@ export function ChatDemo() {
             </div>
           </div>
         )}
+
+        {/* Elemento invisible para auto-scroll */}
+        <div ref={messagesEndRef} />
       </div>
 
       {/* Footer con badge */}

@@ -17,9 +17,11 @@ export function ChatBubble({ message }: ChatBubbleProps) {
         {!isUser && (
           <div className="flex items-center gap-2 mb-2">
             <div className="w-5 h-5 rounded-lg bg-gradient-to-br from-[#0066ff] to-[#0052cc] flex items-center justify-center">
-              <svg viewBox="0 0 24 24" fill="none" className="w-3 h-3" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L4 5V11C4 16 7.5 20.5 12 22C16.5 20.5 20 16 20 11V5L12 2Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                <path d="M9 12L11 14L15 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <svg viewBox="0 0 24 24" fill="none" className="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 3L2 8L12 13L22 8L12 3Z" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="white" fillOpacity="0.2"/>
+                <path d="M6 10.5V15C6 15 8 17 12 17C16 17 18 15 18 15V10.5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M12 13V16" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+                <circle cx="12" cy="17" r="1" fill="white"/>
               </svg>
             </div>
             <span className="text-xs font-sans font-semibold text-[#6c757d]">TutorLaw</span>

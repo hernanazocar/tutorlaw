@@ -55,11 +55,8 @@ export function Pricing() {
   ];
 
   return (
-    <div className="relative bg-gradient-to-b from-white to-[#f8f9fa] py-24 overflow-hidden">
-      {/* Subtle background pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(0,102,255,0.05),transparent_50%)]"></div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+    <div className="bg-white py-24">
+      <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="font-sans text-4xl md:text-5xl font-bold text-[#212529] mb-4">
             Inversión que vale la pena

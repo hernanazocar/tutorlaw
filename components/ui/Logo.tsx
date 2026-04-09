@@ -12,28 +12,43 @@ export function Logo({ size = 'md', showText = true }: LogoProps) {
 
   return (
     <div className="flex items-center gap-2">
-      {/* Logo Icon - Escudo de ley moderno */}
+      {/* Logo Icon - Birrete graduación + Escala justicia */}
       <div className={`${sizes[size].container} rounded-xl bg-gradient-to-br from-[#0066ff] to-[#0052cc] flex items-center justify-center shadow-sm`}>
         <svg
           viewBox="0 0 24 24"
           fill="none"
-          className="w-[60%] h-[60%]"
+          className="w-[65%] h-[65%]"
           xmlns="http://www.w3.org/2000/svg"
         >
+          {/* Birrete de graduación */}
           <path
-            d="M12 2L4 5V11C4 16 7.5 20.5 12 22C16.5 20.5 20 16 20 11V5L12 2Z"
+            d="M12 3L2 8L12 13L22 8L12 3Z"
             stroke="white"
-            strokeWidth="2"
+            strokeWidth="1.8"
             strokeLinecap="round"
             strokeLinejoin="round"
-            fill="none"
+            fill="white"
+            fillOpacity="0.2"
           />
           <path
-            d="M9 12L11 14L15 10"
+            d="M6 10.5V15C6 15 8 17 12 17C16 17 18 15 18 15V10.5"
             stroke="white"
-            strokeWidth="2"
+            strokeWidth="1.8"
             strokeLinecap="round"
             strokeLinejoin="round"
+          />
+          {/* Borla del birrete */}
+          <path
+            d="M12 13V16"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+          <circle
+            cx="12"
+            cy="17"
+            r="1"
+            fill="white"
           />
         </svg>
       </div>

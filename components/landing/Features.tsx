@@ -51,11 +51,7 @@ export function Features() {
   ];
 
   return (
-    <div className="relative bg-gradient-to-b from-white via-[#f8f9fa] to-[#f1f3f5] py-24 overflow-hidden">
-      {/* Decorative grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,102,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,102,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
-
-      <div className="relative z-10">
+    <div className="bg-white py-24">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-[#e9ecef] rounded-full text-sm font-medium text-[#6c757d] mb-6">
@@ -90,7 +86,6 @@ export function Features() {
             </div>
           ))}
         </div>
-      </div>
       </div>
     </div>
   );

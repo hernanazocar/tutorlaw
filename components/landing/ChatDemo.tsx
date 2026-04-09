@@ -22,7 +22,7 @@ const DEMO_CONVERSATION: DemoMessage[] = [
   },
   {
     role: 'assistant',
-    content: 'Tranquilo, te explico el Art. 1545 paso a paso:\n\n**Definición:** "Todo contrato legalmente celebrado es una ley para los contratantes"\n\n**Elementos clave:**\n1. Fuerza obligatoria del contrato\n2. Solo puede invalidarse por consentimiento mutuo o causas legales\n3. No puede ser dejado sin efecto por voluntad unilateral\n\n**Ejemplo práctico:** Si Juan arrienda un depto a María por 1 año, ninguno puede terminar el contrato antes solo porque quiere. Necesitan acuerdo mutuo o una causal legal (ej: no pago).\n\n¿Te quedó claro o quieres que profundice en algo?',
+    content: 'Tranquilo, te explico el Art. 1545 paso a paso:\n\nDefinición: "Todo contrato legalmente celebrado es una ley para los contratantes"\n\nElementos clave:\n1. Fuerza obligatoria del contrato\n2. Solo puede invalidarse por consentimiento mutuo o causas legales\n3. No puede ser dejado sin efecto por voluntad unilateral\n\nEjemplo práctico: Si Juan arrienda un depto a María por 1 año, ninguno puede terminar el contrato antes solo porque quiere. Necesitan acuerdo mutuo o una causal legal (ej: no pago).\n\n¿Te quedó claro o quieres que profundice en algo?',
     delay: 3500
   },
   {
@@ -32,7 +32,7 @@ const DEMO_CONVERSATION: DemoMessage[] = [
   },
   {
     role: 'assistant',
-    content: '**CASO PRÁCTICO:**\n\nPedro y Ana firman contrato de arriendo de un local comercial por 2 años. Al mes, Pedro le dice a Ana que quiere terminar el contrato porque encontró un local más barato.\n\n**Tu turno:** Resuelve el caso usando IRAC:\n- Issue (problema jurídico)\n- Rule (norma aplicable)\n- Application (aplicación al caso)\n- Conclusion\n\n¿Cómo lo resolverías?',
+    content: 'CASO PRÁCTICO:\n\nPedro y Ana firman contrato de arriendo de un local comercial por 2 años. Al mes, Pedro le dice a Ana que quiere terminar el contrato porque encontró un local más barato.\n\nTu turno: Resuelve el caso usando IRAC:\n- Issue (problema jurídico)\n- Rule (norma aplicable)\n- Application (aplicación al caso)\n- Conclusion\n\n¿Cómo lo resolverías?',
     delay: 3000
   },
   {
@@ -42,7 +42,7 @@ const DEMO_CONVERSATION: DemoMessage[] = [
   },
   {
     role: 'assistant',
-    content: '🎯 ¡EXCELENTE! Nota: 7.0\n\nIdentificaste correctamente:\n✓ El problema jurídico\n✓ La norma aplicable (Art. 1545)\n✓ Aplicación al caso concreto\n✓ Conclusión fundamentada\n\n**Consejo para el certamen:** Siempre menciona el artículo exacto y explica brevemente por qué aplica al caso.\n\n¿Quieres practicar otro caso o repasar otro tema?',
+    content: '🎯 ¡EXCELENTE! Nota: 7.0\n\nIdentificaste correctamente:\n✓ El problema jurídico\n✓ La norma aplicable (Art. 1545)\n✓ Aplicación al caso concreto\n✓ Conclusión fundamentada\n\nConsejo para el certamen: Siempre menciona el artículo exacto y explica brevemente por qué aplica al caso.\n\n¿Quieres practicar otro caso o repasar otro tema?',
     delay: 3000
   }
 ];
@@ -114,9 +114,11 @@ export function ChatDemo() {
               {message.role === 'assistant' && (
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-5 h-5 rounded-lg bg-gradient-to-br from-[#0066ff] to-[#0052cc] flex items-center justify-center">
-                    <svg viewBox="0 0 24 24" fill="none" className="w-3 h-3" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 2L4 5V11C4 16 7.5 20.5 12 22C16.5 20.5 20 16 20 11V5L12 2Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                      <path d="M9 12L11 14L15 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <svg viewBox="0 0 24 24" fill="none" className="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 3L2 8L12 13L22 8L12 3Z" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="white" fillOpacity="0.2"/>
+                      <path d="M6 10.5V15C6 15 8 17 12 17C16 17 18 15 18 15V10.5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M12 13V16" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+                      <circle cx="12" cy="17" r="1" fill="white"/>
                     </svg>
                   </div>
                   <span className="text-xs font-sans font-semibold text-[#6c757d]">TutorLaw</span>

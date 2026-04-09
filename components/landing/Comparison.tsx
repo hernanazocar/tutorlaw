@@ -52,12 +52,8 @@ export function Comparison() {
   ];
 
   return (
-    <div className="relative bg-gradient-to-b from-[#f8f9fa] to-white py-24 overflow-hidden">
-      {/* Decorative blob */}
-      <div className="absolute top-20 right-0 w-72 h-72 bg-blue-50 rounded-full blur-3xl opacity-50"></div>
-      <div className="absolute bottom-20 left-0 w-72 h-72 bg-blue-50 rounded-full blur-3xl opacity-50"></div>
-
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
+    <div className="bg-[#f8f9fa] py-24">
+      <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="font-sans text-4xl md:text-5xl font-bold text-[#212529] mb-4">
             ¿Por qué TutorLaw?

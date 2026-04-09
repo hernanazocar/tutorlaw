@@ -20,11 +20,22 @@ export default function LoginPage() {
     setError('');
 
     try {
-      console.log('Starting login...');
-      await signInWithEmail(email, password);
+      console.log('Starting login via API...');
+
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Error al iniciar sesión');
+      }
+
       console.log('Login successful, redirecting...');
-      router.push('/app/chat');
-      router.refresh();
+      window.location.href = '/app/chat'; // Hard redirect to ensure cookies are sent
     } catch (err: any) {
       console.error('Login error:', err);
       setError(err.message || 'Error al iniciar sesión');

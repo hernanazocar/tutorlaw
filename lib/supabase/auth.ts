@@ -7,22 +7,29 @@ export async function signUpWithEmail(
   nombre: string,
   universidad?: string
 ) {
-  const supabase = createSupabaseClient();
+  try {
+    const supabase = createSupabaseClient();
+    console.log('Supabase client created successfully');
 
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      emailRedirectTo: `${window.location.origin}/auth/callback`,
-      data: {
-        nombre,
-        universidad: universidad || '',
-      },
-    },
-  });
+    console.log('Attempting sign up with email:', email);
 
-  if (error) throw error;
-  return data;
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    });
+
+    console.log('Sign up response:', { data, error });
+
+    if (error) {
+      console.error('Supabase error:', error);
+      throw error;
+    }
+
+    return data;
+  } catch (err) {
+    console.error('Caught error in signUpWithEmail:', err);
+    throw err;
+  }
 }
 
 export async function signInWithEmail(email: string, password: string) {

@@ -11,7 +11,7 @@ export function Stats() {
         {/* Header */}
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="font-sans text-3xl sm:text-4xl font-bold text-white mb-3">
-            Tu tutor de derecho con IA, siempre disponible
+            Estudia derecho de forma más inteligente
           </h2>
         </div>
 

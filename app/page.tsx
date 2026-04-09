@@ -1,4 +1,5 @@
 import { Hero } from '@/components/landing/Hero';
+import { Stats } from '@/components/landing/Stats';
 import { Features } from '@/components/landing/Features';
 import { HowItWorks } from '@/components/landing/HowItWorks';
 import { Comparison } from '@/components/landing/Comparison';
@@ -10,6 +11,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <Stats />
       <Features />
       <HowItWorks />
       <Comparison />

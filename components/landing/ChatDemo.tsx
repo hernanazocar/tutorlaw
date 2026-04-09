@@ -17,33 +17,33 @@ const DEMO_CONVERSATION: DemoMessage[] = [
   },
   {
     role: 'user',
-    content: 'Tengo un certamen mañana de Civil I y no entiendo bien el artículo 1545 del Código Civil 😰',
+    content: 'Quiero practicar modo debate. Mi posición: La legítima defensa justifica cualquier acción en respuesta a una agresión',
     delay: 2000
   },
   {
     role: 'assistant',
-    content: 'Tranquilo, te explico el Art. 1545 paso a paso:\n\nDefinición: "Todo contrato legalmente celebrado es una ley para los contratantes"\n\nElementos clave:\n1. Fuerza obligatoria del contrato\n2. Solo puede invalidarse por consentimiento mutuo o causas legales\n3. No puede ser dejado sin efecto por voluntad unilateral\n\nEjemplo práctico: Si Juan arrienda un depto a María por 1 año, ninguno puede terminar el contrato antes solo porque quiere. Necesitan acuerdo mutuo o una causal legal (ej: no pago).\n\n¿Te quedó claro o quieres que profundice en algo?',
+    content: 'Excelente tema para debatir. Tomaré la posición contraria.\n\nARGUMENTO: La legítima defensa NO justifica cualquier acción, sino solo aquellas proporcionales y necesarias.\n\nArt. 10 N°4 Código Penal chileno exige:\n1. Agresión ilegítima\n2. Necesidad racional del medio empleado\n3. Falta de provocación suficiente\n\nEjemplo: Si alguien te empuja levemente, NO puedes dispararle. La respuesta debe ser proporcional a la agresión.\n\nJurisprudencia: CS 2018 - Se rechazó legítima defensa por uso excesivo de fuerza.\n\n¿Cómo rebates mi argumento?',
     delay: 3500
   },
   {
     role: 'user',
-    content: '¡Perfecto! Ahora dame un caso práctico IRAC para practicar',
-    delay: 2000
+    content: 'Contraargumento: En situaciones de peligro real, es imposible calcular la "proporcionalidad perfecta". El que es agredido actúa bajo estrés extremo.',
+    delay: 3000
   },
   {
     role: 'assistant',
-    content: 'CASO PRÁCTICO:\n\nPedro y Ana firman contrato de arriendo de un local comercial por 2 años. Al mes, Pedro le dice a Ana que quiere terminar el contrato porque encontró un local más barato.\n\nTu turno: Resuelve el caso usando IRAC:\n- Issue (problema jurídico)\n- Rule (norma aplicable)\n- Application (aplicación al caso)\n- Conclusion\n\n¿Cómo lo resolverías?',
-    delay: 3000
+    content: 'Buen punto sobre el estrés. Pero:\n\nEl estándar NO es "proporcionalidad perfecta" sino "necesidad racional" - se evalúa objetivamente según las circunstancias.\n\nArt. 10 N°6 (miedo insuperable) ya cubre el estado emocional extremo como eximente diferente.\n\nSi aceptamos "cualquier acción" bajo estrés:\n- Se abriría la puerta al abuso\n- Víctimas inocentes podrían morir por respuestas desmedidas\n- Se destruiría el principio de proporcionalidad del Derecho Penal\n\n¿Tienes jurisprudencia que respalde tu postura?',
+    delay: 3500
   },
   {
     role: 'user',
-    content: 'Issue: ¿Puede Pedro terminar unilateralmente el contrato?\n\nRule: Art. 1545 - el contrato solo puede invalidarse por consentimiento mutuo o causas legales.\n\nApplication: Pedro quiere terminar solo por conveniencia económica, no hay causa legal ni Ana está de acuerdo.\n\nConclusion: Pedro NO puede terminar el contrato unilateralmente. Debe cumplirlo o llegar a acuerdo con Ana.',
-    delay: 4000
+    content: 'Me convenciste. La proporcionalidad es necesaria para evitar abusos. ¿Cómo quedó mi argumentación?',
+    delay: 2500
   },
   {
     role: 'assistant',
-    content: '🎯 ¡EXCELENTE! Nota: 7.0\n\nIdentificaste correctamente:\n✓ El problema jurídico\n✓ La norma aplicable (Art. 1545)\n✓ Aplicación al caso concreto\n✓ Conclusión fundamentada\n\nConsejo para el certamen: Siempre menciona el artículo exacto y explica brevemente por qué aplica al caso.\n\n¿Quieres practicar otro caso o repasar otro tema?',
-    delay: 3000
+    content: 'EVALUACIÓN DE TU DESEMPEÑO:\n\n✓ Fortalezas:\n- Identificaste el problema práctico (cálculo bajo estrés)\n- Argumento empático con la víctima\n- Apertura a cambiar de opinión con evidencia\n\n⚠️ Áreas de mejora:\n- Faltó citar artículos específicos\n- No presentaste jurisprudencia\n- Argumento más emocional que jurídico\n\nNota: 5.5/7.0\n\nPara mejorar: Siempre respalda con normativa y casos reales. El Derecho es evidencia, no solo lógica.\n\n¿Otro debate?',
+    delay: 3500
   }
 ];
 

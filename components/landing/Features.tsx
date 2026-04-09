@@ -134,7 +134,7 @@ export function Features() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl border border-[#e9ecef] p-6 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 relative group cursor-pointer"
+              className="bg-[#f8f9fa] rounded-2xl border border-[#e9ecef] p-6 hover:shadow-2xl hover:-translate-y-2 hover:bg-white transition-all duration-300 relative group cursor-pointer"
             >
               {feature.tag && (
                 <div className="absolute top-4 right-4 px-3 py-1 bg-[#0066ff] text-white text-xs font-semibold rounded-full">

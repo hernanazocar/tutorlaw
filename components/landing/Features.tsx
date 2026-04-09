@@ -1,49 +1,111 @@
+const FeatureIcon = ({ name }: { name: string }) => {
+  const icons: { [key: string]: JSX.Element } = {
+    tutor: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-full h-full">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M12 6v6" strokeWidth="2" strokeLinecap="round"/>
+        <path d="M9 9h6" strokeWidth="2" strokeLinecap="round"/>
+      </svg>
+    ),
+    socratico: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-full h-full">
+        <circle cx="11" cy="11" r="8" strokeWidth="2"/>
+        <path d="M21 21l-4.35-4.35" strokeWidth="2" strokeLinecap="round"/>
+        <path d="M11 8a3 3 0 0 0-3 3" strokeWidth="2" strokeLinecap="round"/>
+      </svg>
+    ),
+    irac: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-full h-full">
+        <path d="M12 3L4 9L12 15L20 9L12 3Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M4 15L12 21L20 15" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M12 9V15" strokeWidth="2" strokeLinecap="round"/>
+      </svg>
+    ),
+    debate: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-full h-full">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M8 10h8" strokeWidth="2" strokeLinecap="round"/>
+        <path d="M8 14h4" strokeWidth="2" strokeLinecap="round"/>
+      </svg>
+    ),
+    examen: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-full h-full">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M14 2v6h6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M9 15l2 2 4-4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    ),
+    oral: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-full h-full">
+        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M12 19v4" strokeWidth="2" strokeLinecap="round"/>
+        <path d="M8 23h8" strokeWidth="2" strokeLinecap="round"/>
+      </svg>
+    ),
+    ensayo: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-full h-full">
+        <path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    ),
+    flashcards: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-full h-full">
+        <rect x="3" y="7" width="18" height="13" rx="2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M6 4h12" strokeWidth="2" strokeLinecap="round"/>
+        <path d="M8 1h8" strokeWidth="2" strokeLinecap="round"/>
+      </svg>
+    )
+  };
+  return icons[name] || null;
+};
+
 export function Features() {
   const features = [
     {
-      icon: '📖',
+      icon: 'tutor',
       title: 'Modo Tutor',
       description: 'Explicaciones paso a paso con definiciones, elementos, ejemplos y artículos exactos. Como tener un profesor particular.',
       tag: 'Popular'
     },
     {
-      icon: '🔍',
+      icon: 'socratico',
       title: 'Método Socrático',
       description: 'Te hace preguntas para que llegues tú solo a la respuesta. Aprendes de verdad, no solo memorizas para el certamen.',
       tag: null
     },
     {
-      icon: '⚖️',
+      icon: 'irac',
       title: 'Casos IRAC',
       description: 'Resuelve casos prácticos con la metodología IRAC: Issue, Rule, Application, Conclusion. Justo como te piden en la U.',
       tag: 'Esencial'
     },
     {
-      icon: '🗣️',
+      icon: 'debate',
       title: 'Debate Jurídico',
       description: 'Defiende tu posición y TutorLaw argumenta en contra con jurisprudencia real. Prepárate para el examen oral.',
       tag: null
     },
     {
-      icon: '📝',
+      icon: 'examen',
       title: 'Generador de Exámenes',
       description: 'Crea preguntas de desarrollo o múltiple opción sobre cualquier tema. Te evalúa con nota 1-7 y explica lo correcto.',
       tag: null
     },
     {
-      icon: '🎤',
+      icon: 'oral',
       title: 'Examen Oral',
       description: 'Simula un examen oral real con preguntas, repreguntas y evaluación final. Practica hasta que te salga perfecto.',
       tag: null
     },
     {
-      icon: '✏️',
+      icon: 'ensayo',
       title: 'Evaluador de Ensayos',
       description: 'Revisa tus ensayos con rúbrica: estructura, rigor jurídico, argumentación y conclusión. Feedback detallado.',
       tag: null
     },
     {
-      icon: '📚',
+      icon: 'flashcards',
       title: 'Flashcards Automáticas',
       description: 'Genera tarjetas de estudio de cualquier tema con pregunta y respuesta (incluye artículos). Perfectas para repasar.',
       tag: 'Nuevo'
@@ -76,7 +138,9 @@ export function Features() {
                   {feature.tag}
                 </div>
               )}
-              <div className="text-4xl mb-4">{feature.icon}</div>
+              <div className="w-12 h-12 mb-4 text-[#0066ff]">
+                <FeatureIcon name={feature.icon} />
+              </div>
               <h3 className="font-sans font-bold text-lg text-[#212529] mb-2">
                 {feature.title}
               </h3>

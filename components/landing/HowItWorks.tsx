@@ -126,38 +126,6 @@ export function HowItWorks() {
             </div>
           </div>
         </div>
-
-        {/* Testimonial */}
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-white/20">
-            <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
-              {/* Avatar */}
-              <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-white text-lg font-bold flex-shrink-0">
-                M
-              </div>
-
-              {/* Content */}
-              <div className="flex-1">
-                {/* Quote */}
-                <div className="mb-4">
-                  <svg className="w-6 h-6 text-white/20 mb-2" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/>
-                  </svg>
-                  <p className="font-sans text-sm sm:text-base text-white leading-relaxed">
-                    Antes perdía horas buscando en apuntes. Ahora pregunto directo y me explica mejor que algunos profes.
-                    El modo IRAC me salvó en el certamen de Obligaciones.
-                  </p>
-                </div>
-
-                {/* Author */}
-                <div>
-                  <div className="font-sans font-bold text-white text-sm">María José</div>
-                  <div className="font-sans text-xs text-white/70">3° año Derecho · Universidad Católica</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

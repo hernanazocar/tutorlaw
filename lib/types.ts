@@ -67,3 +67,30 @@ export type Flashcard = {
   front: string;
   back: string;
 };
+
+export type Conversation = {
+  id: string;
+  user_id: string;
+  title: string;
+  mode: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ConversationMessage = {
+  id: string;
+  conversation_id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  created_at: string;
+};
+
+export type Note = {
+  id: string;
+  user_id: string;
+  title: string;
+  content: string;
+  tags: string[];
+  created_at: string;
+  updated_at: string;
+};

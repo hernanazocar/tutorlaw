@@ -68,7 +68,7 @@ export default function RegistroPage() {
                 Empieza gratis
               </h1>
               <p className="font-sans text-[#6c757d]">
-                20 consultas al mes sin tarjeta de crédito
+                5 preguntas gratis · Sin tarjeta de crédito
               </p>
             </div>
 

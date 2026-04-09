@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Logo } from '@/components/ui/Logo';
 import Link from 'next/link';
-import type { Conversation, ConversationMessage } from '@/lib/types';
 
 const MODOS = [
   {
@@ -96,80 +95,6 @@ export default function ChatPage() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
-  const [showUserMenu, setShowUserMenu] = useState(false);
-
-  // Load conversations for current mode
-  useEffect(() => {
-    loadConversations();
-  }, [modoActual.id]);
-
-  // Load messages for current conversation
-  useEffect(() => {
-    if (currentConversationId) {
-      loadMessages(currentConversationId);
-    }
-  }, [currentConversationId]);
-
-  const loadConversations = async () => {
-    try {
-      const res = await fetch(`/api/conversations?mode=${modoActual.id}`);
-      if (res.ok) {
-        const data = await res.json();
-        setConversations(data);
-      }
-    } catch (error) {
-      console.error('Error loading conversations:', error);
-    }
-  };
-
-  const loadMessages = async (conversationId: string) => {
-    try {
-      const res = await fetch(`/api/conversations/${conversationId}/messages`);
-      if (res.ok) {
-        const data: ConversationMessage[] = await res.json();
-        setMessages(data.map(m => ({ role: m.role, content: m.content })));
-      }
-    } catch (error) {
-      console.error('Error loading messages:', error);
-    }
-  };
-
-  const createNewConversation = async (firstMessage: string) => {
-    try {
-      const res = await fetch('/api/conversations', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: firstMessage.slice(0, 50) + (firstMessage.length > 50 ? '...' : ''),
-          mode: modoActual.id,
-        }),
-      });
-
-      if (res.ok) {
-        const conversation = await res.json();
-        setCurrentConversationId(conversation.id);
-        setConversations(prev => [conversation, ...prev]);
-        return conversation.id;
-      }
-    } catch (error) {
-      console.error('Error creating conversation:', error);
-    }
-    return null;
-  };
-
-  const saveMessage = async (conversationId: string, role: 'user' | 'assistant', content: string) => {
-    try {
-      await fetch(`/api/conversations/${conversationId}/messages`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ role, content }),
-      });
-    } catch (error) {
-      console.error('Error saving message:', error);
-    }
-  };
 
   const handleSend = async () => {
     if (!input.trim() || loading) return;
@@ -178,18 +103,6 @@ export default function ChatPage() {
     setInput('');
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setLoading(true);
-
-    let conversationId = currentConversationId;
-
-    // Create new conversation if this is the first message
-    if (!conversationId) {
-      conversationId = await createNewConversation(userMessage);
-    }
-
-    // Save user message
-    if (conversationId) {
-      await saveMessage(conversationId, 'user', userMessage);
-    }
 
     try {
       const response = await fetch('/api/chat/stream', {
@@ -222,27 +135,12 @@ export default function ChatPage() {
           return newMessages;
         });
       }
-
-      // Save assistant message
-      if (conversationId) {
-        await saveMessage(conversationId, 'assistant', assistantMessage);
-      }
     } catch (error) {
       console.error('Error:', error);
       setMessages(prev => [...prev, { role: 'assistant', content: 'Error al procesar tu mensaje. Por favor intenta de nuevo.' }]);
     } finally {
       setLoading(false);
     }
-  };
-
-  const startNewConversation = () => {
-    setCurrentConversationId(null);
-    setMessages([]);
-  };
-
-  const handleLogout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
-    window.location.href = '/';
   };
 
   return (
@@ -255,19 +153,6 @@ export default function ChatPage() {
           <p className="text-xs text-[#6c757d] mt-2">Estudiando con IA</p>
         </div>
 
-        {/* New Conversation Button */}
-        <div className="p-4 border-b border-[#e9ecef]">
-          <button
-            onClick={startNewConversation}
-            className="w-full px-4 py-3 bg-[#0066ff] text-white rounded-xl font-semibold hover:bg-[#0052cc] transition-colors flex items-center justify-center gap-2"
-          >
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M12 5v14M5 12h14" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-            Nueva conversación
-          </button>
-        </div>
-
         {/* Modos de estudio */}
         <div className="flex-1 overflow-y-auto p-4">
           <h3 className="text-xs font-bold text-[#6c757d] uppercase tracking-wider mb-4 px-2">
@@ -277,10 +162,7 @@ export default function ChatPage() {
             {MODOS.map((modo) => (
               <button
                 key={modo.id}
-                onClick={() => {
-                  setModoActual(modo);
-                  startNewConversation();
-                }}
+                onClick={() => setModoActual(modo)}
                 className={`w-full text-left p-4 rounded-xl transition-all duration-200 ${
                   modoActual.id === modo.id
                     ? 'bg-gradient-to-r ' + modo.color + ' text-white shadow-lg scale-105'
@@ -301,80 +183,13 @@ export default function ChatPage() {
               </button>
             ))}
           </div>
-
-          {/* Historial */}
-          {conversations.length > 0 && (
-            <div className="mt-6">
-              <h3 className="text-xs font-bold text-[#6c757d] uppercase tracking-wider mb-4 px-2">
-                Historial
-              </h3>
-              <div className="space-y-1">
-                {conversations.map((conv) => (
-                  <button
-                    key={conv.id}
-                    onClick={() => setCurrentConversationId(conv.id)}
-                    className={`w-full text-left p-3 rounded-lg transition-colors ${
-                      currentConversationId === conv.id
-                        ? 'bg-[#e6f0ff] text-[#0066ff]'
-                        : 'text-[#212529] hover:bg-[#f8f9fa]'
-                    }`}
-                  >
-                    <div className="text-sm font-medium truncate">{conv.title}</div>
-                    <div className="text-xs text-[#6c757d] mt-1">
-                      {new Date(conv.created_at).toLocaleDateString('es-ES', {
-                        day: 'numeric',
-                        month: 'short',
-                      })}
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
 
-        {/* User Menu */}
+        {/* User info */}
         <div className="p-4 border-t border-[#e9ecef]">
-          <div className="relative">
-            <button
-              onClick={() => setShowUserMenu(!showUserMenu)}
-              className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-[#f8f9fa] transition-colors"
-            >
-              <div className="w-8 h-8 rounded-full bg-[#0066ff] flex items-center justify-center text-white font-semibold">
-                H
-              </div>
-              <div className="flex-1 text-left">
-                <div className="text-sm font-semibold text-[#212529]">Mi cuenta</div>
-                <div className="text-xs text-[#6c757d]">5 preguntas restantes</div>
-              </div>
-              <svg className="w-4 h-4 text-[#6c757d]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M6 9l6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-
-            {showUserMenu && (
-              <div className="absolute bottom-full left-0 right-0 mb-2 bg-white border border-[#e9ecef] rounded-lg shadow-lg overflow-hidden">
-                <Link
-                  href="/app/settings"
-                  className="block px-4 py-3 hover:bg-[#f8f9fa] transition-colors text-sm text-[#212529]"
-                >
-                  ⚙️ Configuración
-                </Link>
-                <Link
-                  href="/app/notes"
-                  className="block px-4 py-3 hover:bg-[#f8f9fa] transition-colors text-sm text-[#212529]"
-                >
-                  📝 Apuntes
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="w-full text-left px-4 py-3 hover:bg-[#f8f9fa] transition-colors text-sm text-red-600"
-                >
-                  🚪 Cerrar sesión
-                </button>
-              </div>
-            )}
-          </div>
+          <Link href="/" className="text-xs text-[#6c757d] hover:text-[#0066ff]">
+            ← Volver al inicio
+          </Link>
         </div>
       </div>
 
@@ -394,6 +209,11 @@ export default function ChatPage() {
             <div>
               <h1 className="font-bold text-xl text-[#212529]">{modoActual.nombre}</h1>
               <p className="text-sm text-[#6c757d]">{modoActual.descripcion}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="text-xs bg-[#e6f0ff] text-[#0066ff] px-3 py-1 rounded-full font-medium">
+              5 preguntas restantes
             </div>
           </div>
         </div>
@@ -417,6 +237,33 @@ export default function ChatPage() {
                 {modoActual.id === 'oral' && 'Simularemos un examen oral con preguntas, repreguntas y evaluación final.'}
                 {modoActual.id === 'ensayo' && 'Revisaré tu ensayo evaluando estructura, rigor jurídico y argumentación.'}
               </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+                <button
+                  onClick={() => setInput(modoActual.id === 'tutor' ? 'Explícame qué es la legítima defensa' :
+                    modoActual.id === 'caso' ? 'Caso: Juan compró un auto con vicios ocultos' :
+                    modoActual.id === 'debate' ? 'Debate: La legítima defensa justifica cualquier acción' :
+                    '¿Cómo empiezo?')}
+                  className="p-4 bg-[#f8f9fa] hover:bg-[#e9ecef] rounded-xl text-left text-sm transition-colors"
+                >
+                  <div className="font-semibold text-[#212529] mb-1">
+                    {modoActual.id === 'tutor' && '📚 Explícame un concepto'}
+                    {modoActual.id === 'socratico' && '❓ Quiero entender mejor'}
+                    {modoActual.id === 'caso' && '⚖️ Resolvamos un caso'}
+                    {modoActual.id === 'debate' && '🗣️ Practiquemos debate'}
+                    {modoActual.id === 'examen' && '📝 Genera preguntas'}
+                    {modoActual.id === 'oral' && '🎤 Simula examen oral'}
+                    {modoActual.id === 'ensayo' && '✏️ Revisa mi ensayo'}
+                  </div>
+                  <div className="text-xs text-[#6c757d]">Ejemplo de uso</div>
+                </button>
+                <button
+                  onClick={() => setInput('¿Qué temas puedes ayudarme a estudiar?')}
+                  className="p-4 bg-[#f8f9fa] hover:bg-[#e9ecef] rounded-xl text-left text-sm transition-colors"
+                >
+                  <div className="font-semibold text-[#212529] mb-1">💡 ¿Qué temas cubres?</div>
+                  <div className="text-xs text-[#6c757d]">Ver alcance</div>
+                </button>
+              </div>
             </div>
           ) : (
             <div className="max-w-4xl mx-auto space-y-6">

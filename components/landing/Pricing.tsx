@@ -70,10 +70,8 @@ export function Pricing() {
           {plans.map((plan, index) => (
             <div
               key={index}
-              className={`rounded-3xl p-6 sm:p-8 relative transition-all duration-300 ${
-                plan.popular
-                  ? 'bg-[#0066ff] shadow-2xl scale-105 border-2 border-[#0066ff]'
-                  : 'bg-white border-2 border-[#e9ecef] hover:border-[#0066ff]/30 hover:shadow-lg'
+              className={`rounded-3xl p-6 sm:p-8 relative transition-all duration-300 bg-[#0066ff] shadow-xl border-2 border-[#0066ff] ${
+                plan.popular ? 'scale-105' : 'hover:scale-105'
               }`}
             >
               {plan.popular && (
@@ -83,38 +81,26 @@ export function Pricing() {
               )}
 
               <div className="mb-6">
-                <h3 className={`font-sans font-bold text-2xl mb-2 ${
-                  plan.popular ? 'text-white' : 'text-[#212529]'
-                }`}>
+                <h3 className="font-sans font-bold text-2xl mb-2 text-white">
                   {plan.name}
                 </h3>
                 <div className="flex items-baseline gap-1 mb-2">
-                  <span className={`font-sans font-bold text-4xl ${
-                    plan.popular ? 'text-white' : 'text-[#212529]'
-                  }`}>
+                  <span className="font-sans font-bold text-4xl text-white">
                     {plan.price}
                   </span>
-                  <span className={`font-sans text-sm ${
-                    plan.popular ? 'text-white/80' : 'text-[#6c757d]'
-                  }`}>
+                  <span className="font-sans text-sm text-white/80">
                     {plan.period}
                   </span>
                 </div>
-                <p className={`font-sans text-sm ${
-                  plan.popular ? 'text-white/90' : 'text-[#6c757d]'
-                }`}>
+                <p className="font-sans text-sm text-white/90">
                   {plan.description}
                 </p>
               </div>
 
               <Button
-                variant={plan.popular ? 'secondary' : plan.variant}
+                variant="secondary"
                 size="md"
-                className={`w-full mb-6 ${
-                  plan.popular
-                    ? 'bg-white text-[#0066ff] hover:bg-white/90 font-bold shadow-lg'
-                    : ''
-                }`}
+                className="w-full mb-6 bg-white text-[#0066ff] hover:bg-white/90 font-bold shadow-lg"
               >
                 {plan.cta}
               </Button>
@@ -123,9 +109,7 @@ export function Pricing() {
                 {plan.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-2">
                     <svg
-                      className={`w-5 h-5 flex-shrink-0 mt-0.5 ${
-                        plan.popular ? 'text-white' : 'text-[#0066ff]'
-                      }`}
+                      className="w-5 h-5 flex-shrink-0 mt-0.5 text-white"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -137,9 +121,7 @@ export function Pricing() {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    <span className={`font-sans text-sm ${
-                      plan.popular ? 'text-white' : 'text-[#212529]'
-                    }`}>
+                    <span className="font-sans text-sm text-white">
                       {feature}
                     </span>
                   </li>

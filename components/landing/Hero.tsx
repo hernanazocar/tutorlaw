@@ -34,8 +34,10 @@ export function Hero() {
           {/* Left side - Text */}
           <div className="space-y-6 sm:space-y-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#e6f0ff] text-[#0066ff] rounded-full text-sm font-medium">
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M2 17L12 22L22 17" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M2 12L12 17L22 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
               Potenciado por IA avanzada
             </div>

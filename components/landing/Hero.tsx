@@ -40,7 +40,7 @@ export function Hero() {
               Potenciado por IA avanzada
             </div>
 
-            <h1 className="font-sans text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#212529] leading-tight tracking-tight">
+            <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#212529] leading-tight tracking-tight">
               Tu tutor de derecho
               <span className="block">
                 <span className="text-[#0066ff]">24/7</span>

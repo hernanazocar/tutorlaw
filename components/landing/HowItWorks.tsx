@@ -6,12 +6,12 @@ export function HowItWorks() {
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
 
       <div className="relative z-10">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="font-sans text-4xl md:text-5xl font-bold text-white mb-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 sm:mb-4 px-4">
               Más fácil imposible
             </h2>
-            <p className="font-sans text-xl text-white/90 max-w-2xl mx-auto">
+            <p className="font-sans text-base sm:text-lg md:text-xl text-white/90 max-w-2xl mx-auto px-4">
               En 3 pasos estás estudiando. Sin instalaciones, sin configuraciones complicadas.
             </p>
           </div>
@@ -74,7 +74,7 @@ export function HowItWorks() {
         </div>
 
           {/* Testimonial inline */}
-          <div className="mt-20 max-w-3xl mx-auto bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+          <div className="mt-12 sm:mt-16 md:mt-20 max-w-3xl mx-auto bg-white/10 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-white/20">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white font-bold flex-shrink-0">
                 M

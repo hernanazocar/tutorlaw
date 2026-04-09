@@ -52,13 +52,13 @@ export function Comparison() {
   ];
 
   return (
-    <div className="bg-[#f8f9fa] py-24">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="font-sans text-4xl md:text-5xl font-bold text-[#212529] mb-4">
+    <div className="bg-[#f8f9fa] py-16 sm:py-20 md:py-24">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold text-[#212529] mb-3 sm:mb-4 px-4">
             ¿Por qué TutorLaw?
           </h2>
-          <p className="font-sans text-xl text-[#6c757d] max-w-2xl mx-auto">
+          <p className="font-sans text-base sm:text-lg md:text-xl text-[#6c757d] max-w-2xl mx-auto px-4">
             Combina lo mejor de un tutor particular con la disponibilidad de la IA, pero especializado en derecho chileno.
           </p>
         </div>
@@ -68,7 +68,7 @@ export function Comparison() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-[#e9ecef]">
-                  <th className="text-left p-6 font-sans font-semibold text-[#6c757d] text-sm w-1/4">
+                  <th className="text-left p-3 sm:p-4 md:p-6 font-sans font-semibold text-[#6c757d] text-xs sm:text-sm w-1/4">
                     Característica
                   </th>
                   <th className="text-center p-6 font-sans font-semibold text-[#6c757d] text-sm w-1/4">
@@ -77,7 +77,7 @@ export function Comparison() {
                   <th className="text-center p-6 font-sans font-semibold text-[#6c757d] text-sm w-1/4">
                     ChatGPT genérico
                   </th>
-                  <th className="text-center p-6 font-sans font-bold text-[#0066ff] text-sm w-1/4 bg-[#e6f0ff]">
+                  <th className="text-center p-3 sm:p-4 md:p-6 font-sans font-bold text-[#0066ff] text-xs sm:text-sm w-1/4 bg-[#e6f0ff]">
                     TutorLaw
                   </th>
                 </tr>
@@ -88,7 +88,7 @@ export function Comparison() {
                     key={index}
                     className={`border-b border-[#e9ecef] ${row.highlight ? 'bg-[#f8f9fa]' : ''}`}
                   >
-                    <td className="p-6 font-sans text-[#212529] font-medium text-sm">
+                    <td className="p-3 sm:p-4 md:p-6 font-sans text-[#212529] font-medium text-xs sm:text-sm">
                       {row.feature}
                     </td>
                     <td className="p-6 text-center font-sans text-[#6c757d] text-sm">
@@ -97,7 +97,7 @@ export function Comparison() {
                     <td className="p-6 text-center font-sans text-[#6c757d] text-sm">
                       {row.chatgpt}
                     </td>
-                    <td className="p-6 text-center font-sans text-[#212529] font-semibold text-sm bg-[#e6f0ff]/30">
+                    <td className="p-3 sm:p-4 md:p-6 text-center font-sans text-[#212529] font-semibold text-xs sm:text-sm bg-[#e6f0ff]/30">
                       {row.tutorlaw}
                     </td>
                   </tr>

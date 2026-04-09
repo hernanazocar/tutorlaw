@@ -20,10 +20,13 @@ export default function LoginPage() {
     setError('');
 
     try {
+      console.log('Starting login...');
       await signInWithEmail(email, password);
+      console.log('Login successful, redirecting...');
       router.push('/app/chat');
       router.refresh();
     } catch (err: any) {
+      console.error('Login error:', err);
       setError(err.message || 'Error al iniciar sesión');
       setLoading(false);
     }

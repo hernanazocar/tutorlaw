@@ -33,15 +33,27 @@ export async function signUpWithEmail(
 }
 
 export async function signInWithEmail(email: string, password: string) {
-  const supabase = createSupabaseClient();
+  try {
+    const supabase = createSupabaseClient();
+    console.log('Attempting sign in with email:', email);
 
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
-  if (error) throw error;
-  return data;
+    console.log('Sign in response:', { data, error });
+
+    if (error) {
+      console.error('Supabase sign in error:', error);
+      throw error;
+    }
+
+    return data;
+  } catch (err) {
+    console.error('Caught error in signInWithEmail:', err);
+    throw err;
+  }
 }
 
 export async function signInWithGoogle() {

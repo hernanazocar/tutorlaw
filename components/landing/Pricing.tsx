@@ -70,36 +70,52 @@ export function Pricing() {
           {plans.map((plan, index) => (
             <div
               key={index}
-              className={`rounded-2xl border-2 p-6 sm:p-8 relative ${
+              className={`rounded-3xl p-6 sm:p-8 relative transition-all duration-300 ${
                 plan.popular
-                  ? 'border-[#0066ff] shadow-xl scale-105'
-                  : 'border-[#e9ecef]'
+                  ? 'bg-[#0066ff] shadow-2xl scale-105 border-2 border-[#0066ff]'
+                  : 'bg-white border-2 border-[#e9ecef] hover:border-[#0066ff]/30 hover:shadow-lg'
               }`}
             >
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-[#0066ff] text-white text-sm font-semibold rounded-full">
-                  Más popular
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-white text-[#0066ff] text-sm font-bold rounded-full shadow-lg">
+                  ⭐ Más popular
                 </div>
               )}
 
               <div className="mb-6">
-                <h3 className="font-sans font-bold text-2xl text-[#212529] mb-2">
+                <h3 className={`font-sans font-bold text-2xl mb-2 ${
+                  plan.popular ? 'text-white' : 'text-[#212529]'
+                }`}>
                   {plan.name}
                 </h3>
                 <div className="flex items-baseline gap-1 mb-2">
-                  <span className="font-sans font-bold text-4xl text-[#212529]">
+                  <span className={`font-sans font-bold text-4xl ${
+                    plan.popular ? 'text-white' : 'text-[#212529]'
+                  }`}>
                     {plan.price}
                   </span>
-                  <span className="font-sans text-[#6c757d] text-sm">
+                  <span className={`font-sans text-sm ${
+                    plan.popular ? 'text-white/80' : 'text-[#6c757d]'
+                  }`}>
                     {plan.period}
                   </span>
                 </div>
-                <p className="font-sans text-sm text-[#6c757d]">
+                <p className={`font-sans text-sm ${
+                  plan.popular ? 'text-white/90' : 'text-[#6c757d]'
+                }`}>
                   {plan.description}
                 </p>
               </div>
 
-              <Button variant={plan.variant} size="md" className="w-full mb-6">
+              <Button
+                variant={plan.popular ? 'secondary' : plan.variant}
+                size="md"
+                className={`w-full mb-6 ${
+                  plan.popular
+                    ? 'bg-white text-[#0066ff] hover:bg-white/90 font-bold shadow-lg'
+                    : ''
+                }`}
+              >
                 {plan.cta}
               </Button>
 
@@ -107,7 +123,9 @@ export function Pricing() {
                 {plan.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-2">
                     <svg
-                      className="w-5 h-5 text-[#0066ff] flex-shrink-0 mt-0.5"
+                      className={`w-5 h-5 flex-shrink-0 mt-0.5 ${
+                        plan.popular ? 'text-white' : 'text-[#0066ff]'
+                      }`}
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -119,7 +137,9 @@ export function Pricing() {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    <span className="font-sans text-sm text-[#212529]">
+                    <span className={`font-sans text-sm ${
+                      plan.popular ? 'text-white' : 'text-[#212529]'
+                    }`}>
                       {feature}
                     </span>
                   </li>

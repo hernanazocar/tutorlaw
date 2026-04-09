@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { ChatDemo } from './ChatDemo';
 import { Button } from '../ui/Button';
 import { Logo } from '../ui/Logo';
@@ -11,13 +12,17 @@ export function Hero() {
       <header className="sticky top-0 z-50 bg-white border-b border-[#e9ecef] shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Logo size="md" showText={true} />
-        <div className="flex gap-3">
-          <Button variant="ghost" size="sm">
-            Iniciar sesión
-          </Button>
-          <Button variant="primary" size="sm">
-            Probar gratis
-          </Button>
+        <div className="flex gap-2 sm:gap-3">
+          <Link href="/login">
+            <Button variant="ghost" size="sm">
+              Iniciar sesión
+            </Button>
+          </Link>
+          <Link href="/registro">
+            <Button variant="primary" size="sm">
+              Probar gratis
+            </Button>
+          </Link>
         </div>
         </div>
       </header>
@@ -96,9 +101,11 @@ export function Hero() {
             </div>
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-2">
-              <Button variant="primary" size="lg">
-                Probar ahora gratis
-              </Button>
+              <Link href="/registro">
+                <Button variant="primary" size="lg">
+                  Probar ahora gratis
+                </Button>
+              </Link>
               <div className="text-sm text-[#6c757d]">
                 <span className="font-semibold text-[#212529]">5 preguntas gratis</span> · Sin tarjeta · Sin instalación
               </div>

@@ -2,7 +2,12 @@ import { Button } from '../ui/Button';
 
 export function CTA() {
   return (
-    <div className="bg-gradient-to-br from-[#0066ff] to-[#0052cc] py-24">
+    <div className="relative bg-gradient-to-br from-[#0066ff] via-[#0052cc] to-[#003d99] py-24 overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+
+      <div className="relative z-10">
       <div className="max-w-4xl mx-auto px-6 text-center">
         <h2 className="font-sans text-4xl md:text-5xl font-bold text-white mb-6">
           Deja de perder tiempo buscando
@@ -35,6 +40,7 @@ export function CTA() {
             <div className="font-sans text-sm text-white/80">Siempre disponible</div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

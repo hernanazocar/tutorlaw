@@ -1,6 +1,6 @@
 export function HowItWorks() {
   return (
-    <div className="bg-white py-24">
+    <div className="bg-gradient-to-b from-white to-[#f8f9fa] py-24">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="font-sans text-4xl md:text-5xl font-bold text-[#212529] mb-4">

@@ -55,9 +55,10 @@ export function Logo({ size = 'md', showText = true }: LogoProps) {
 
       {/* Logo Text */}
       {showText && (
-        <span className={`font-sans font-bold ${sizes[size].text} text-[#212529] tracking-tight`}>
-          TutorLaw
-        </span>
+        <div className={`font-sans font-bold ${sizes[size].text} tracking-tight`}>
+          <span className="text-[#212529]">Tutor</span>
+          <span className="text-[#0066ff]">Law</span>
+        </div>
       )}
     </div>
   );

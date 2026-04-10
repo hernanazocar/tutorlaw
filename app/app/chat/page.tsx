@@ -375,10 +375,10 @@ export default function ChatPage() {
           <YearSelector />
         </div>
 
-        {/* Práctica */}
+        {/* Modos de Práctica */}
         <div className="p-2 mb-2 bg-gradient-to-br from-blue-50 to-white border-b border-[#e9ecef]">
           <h3 className="text-xs font-bold text-[#6c757d] uppercase tracking-wide mb-1.5 px-1">
-            Práctica
+            Modos de Práctica
           </h3>
           <div className="space-y-1.5">
             <div className="grid grid-cols-2 gap-1.5">

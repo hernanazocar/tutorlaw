@@ -370,19 +370,8 @@ export default function ChatPage() {
           </button>
         </div>
 
-        {/* Mi Progreso */}
-        <div className="p-1.5 mb-2 bg-gradient-to-br from-purple-50 to-white border-b border-[#e9ecef]">
-          <h3 className="text-xs font-semibold text-[#6c757d] uppercase tracking-wide mb-1 px-1">
-            Progreso
-          </h3>
-          <div className="grid grid-cols-2 gap-1.5">
-            <LevelBadge />
-            <StreakCounter />
-          </div>
-        </div>
-
         {/* Nivel Académico */}
-        <div className="px-2 mb-2">
+        <div className="px-2 py-2 border-b border-[#e9ecef]">
           <YearSelector />
         </div>
 
@@ -607,6 +596,12 @@ export default function ChatPage() {
           </div>
 
           <TeacherModeToggle mode={teacherMode} onChange={setTeacherMode} />
+
+          {/* Progreso */}
+          <div className="flex items-center gap-2">
+            <LevelBadge />
+            <StreakCounter />
+          </div>
 
           {messages.length > 0 && (
             <button

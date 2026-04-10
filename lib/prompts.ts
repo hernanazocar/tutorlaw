@@ -68,12 +68,23 @@ function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+const YEAR_LEVELS = {
+  '1': { name: '1° año', level: 'básico', focus: 'Introducción al Derecho, conceptos fundamentales' },
+  '2': { name: '2° año', level: 'intermedio básico', focus: 'Derecho Civil I, Penal I' },
+  '3': { name: '3° año', level: 'intermedio', focus: 'Derecho Civil II, Penal II, casos prácticos' },
+  '4': { name: '4° año', level: 'avanzado', focus: 'Especialización, análisis profundo' },
+  '5': { name: '5° año', level: 'avanzado superior', focus: 'Práctica profesional, casos complejos' },
+  'egresado': { name: 'Egresado', level: 'profesional en preparación', focus: 'Examen de grado, repaso integral' },
+  'profesional': { name: 'Profesional', level: 'experto', focus: 'Actualización normativa, casos complejos' },
+};
+
 export function getSystemPrompt(
   mode: string,
   ramo: string = 'general',
   jurisdiccion: string = 'Chile',
   pdfContext?: string,
-  teacherMode: 'patient' | 'strict' = 'patient'
+  teacherMode: 'patient' | 'strict' = 'patient',
+  userYear?: string
 ): string {
   const ramoText = ramo === 'general'
     ? 'todas las ramas del derecho'
@@ -87,7 +98,11 @@ export function getSystemPrompt(
     ? '\n\nPERSONALIDAD EXIGENTE: Sé estricto y directo. Si hay errores, señálalos claramente ("Incorrecto"). No des pistas fáciles. El estudiante debe esforzarse. Mantén estándares altos.'
     : '\n\nPERSONALIDAD PACIENTE: Sé comprensivo y alentador. Si hay errores, corrige con amabilidad ("Casi, pero..."). Da pistas útiles. Celebra los aciertos.';
 
-  const base = `Eres TutorLaw, tutora IA experta en ${ramoText} del ordenamiento jurídico de ${jurisdiccion}. Ayudas a estudiantes universitarios de derecho. Cita artículos y normas reales de ${jurisdiccion}. Sé precisa, didáctica, en español.${teacherPersonality}${contextText}`;
+  const yearContext = userYear && YEAR_LEVELS[userYear as keyof typeof YEAR_LEVELS]
+    ? `\n\nNIVEL DEL ESTUDIANTE: ${YEAR_LEVELS[userYear as keyof typeof YEAR_LEVELS].name} (nivel ${YEAR_LEVELS[userYear as keyof typeof YEAR_LEVELS].level}). Enfoque: ${YEAR_LEVELS[userYear as keyof typeof YEAR_LEVELS].focus}. Ajusta la complejidad de tus explicaciones, ejemplos y preguntas a este nivel.`
+    : '';
+
+  const base = `Eres TutorLaw, tutora IA experta en ${ramoText} del ordenamiento jurídico de ${jurisdiccion}. Ayudas a estudiantes universitarios de derecho. Cita artículos y normas reales de ${jurisdiccion}. Sé precisa, didáctica, en español.${teacherPersonality}${yearContext}${contextText}`;
 
   const prompts: Record<string, string> = {
     tutor: `${base}\n\nMODO TUTOR: estructura definición→elementos→ejemplo→norma. Corrige con amabilidad.`,

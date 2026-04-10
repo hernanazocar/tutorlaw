@@ -73,7 +73,7 @@ IMPORTANTE:
 export async function POST(req: NextRequest) {
   try {
     const body: ChatRequest = await req.json();
-    const { messages, mode = 'tutor', ramo = 'general', jurisdiccion = 'Chile', sessionId, anonymous = false, teacherMode = 'patient' } = body;
+    const { messages, mode = 'tutor', ramo = 'general', jurisdiccion = 'Chile', sessionId, anonymous = false, teacherMode = 'patient', userYear } = body;
 
     if (!messages || messages.length === 0) {
       return NextResponse.json(
@@ -139,7 +139,7 @@ export async function POST(req: NextRequest) {
     const contextoRAG = await buscarArticulosRelevantes(ultimoMensajeUsuario, supabase);
 
     // Obtener system prompt según el modo
-    let systemPrompt = getSystemPrompt(mode, ramo, jurisdiccion, undefined, teacherMode as 'patient' | 'strict');
+    let systemPrompt = getSystemPrompt(mode, ramo, jurisdiccion, undefined, teacherMode as 'patient' | 'strict', userYear);
 
     // Agregar contexto RAG al system prompt si hay artículos relevantes
     if (contextoRAG) {

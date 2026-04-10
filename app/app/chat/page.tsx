@@ -12,6 +12,7 @@ import { MateriaTags } from '@/components/chat/MateriaTags';
 import { TeacherModeToggle, type TeacherMode } from '@/components/chat/TeacherModeToggle';
 import { LevelBadge } from '@/components/gamification/LevelBadge';
 import { StreakCounter } from '@/components/gamification/StreakCounter';
+import { YearSelector, getUserYear } from '@/components/profile/YearSelector';
 import { QuickQuizModal } from '@/components/gamification/QuickQuizModal';
 import { ExamSimulator } from '@/components/gamification/ExamSimulator';
 import { DailyChallenge } from '@/components/gamification/DailyChallenge';
@@ -234,6 +235,7 @@ export default function ChatPage() {
           mode: modoActual.id,
           anonymous: true, // Permitir uso sin autenticación
           teacherMode, // Modo profe paciente/exigente
+          userYear: getUserYear(), // Año académico del usuario
         }),
       });
 
@@ -377,6 +379,11 @@ export default function ChatPage() {
             <LevelBadge />
             <StreakCounter />
           </div>
+        </div>
+
+        {/* Nivel Académico */}
+        <div className="px-2 mb-2">
+          <YearSelector />
         </div>
 
         {/* Práctica */}

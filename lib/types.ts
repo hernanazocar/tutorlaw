@@ -56,6 +56,7 @@ export type ChatRequest = {
   sessionId?: string;
   anonymous?: boolean;
   teacherMode?: 'patient' | 'strict';
+  userYear?: string;
 };
 
 export type FlashcardRequest = {

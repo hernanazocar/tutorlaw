@@ -43,7 +43,7 @@ export function Hero() {
             </div>
 
             <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-bold text-[#212529] leading-[1.1] tracking-tight">
-              Tu tutor jurídico con IA, <span className="text-[#0066ff]">siempre disponible</span>
+              Tu tutor legal con IA, <span className="text-[#0066ff]">estudia inteligente</span>
             </h1>
 
             <p className="font-sans text-base sm:text-lg md:text-xl text-[#6c757d] leading-relaxed max-w-xl">

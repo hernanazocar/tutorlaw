@@ -8,16 +8,17 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
+      <div className="bg-white border-b border-gray-200 px-3 sm:px-6 py-3 sm:py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <Logo size="sm" showText={true} />
           </div>
           <Link
             href="/app/chat"
-            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-semibold text-sm transition-colors"
+            className="px-3 sm:px-4 py-1.5 sm:py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-semibold text-xs sm:text-sm transition-colors whitespace-nowrap"
           >
-            Volver al Chat
+            <span className="hidden sm:inline">Volver al Chat</span>
+            <span className="sm:hidden">Chat</span>
           </Link>
         </div>
       </div>

@@ -2,6 +2,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const runtime = 'edge';
+export const maxDuration = 60;
 
 type AssessmentRequest = {
   ramo: string;
@@ -30,26 +31,21 @@ export async function POST(req: NextRequest) {
 
     const client = new Anthropic({ apiKey });
 
-    const prompt = `Genera un diagnóstico de conocimientos de 15 preguntas para evaluar el nivel de un estudiante en ${ramo} en ${jurisdiccion}.
+    const prompt = `Genera 15 preguntas de opción múltiple para evaluar conocimientos en ${ramo} de ${jurisdiccion}.
 
-REQUISITOS CRÍTICOS:
-1. Genera EXACTAMENTE 15 preguntas distribuidas así:
-   - 5 preguntas de nivel "básico" (conceptos fundamentales, definiciones)
-   - 5 preguntas de nivel "intermedio" (aplicación de conceptos, casos simples)
-   - 5 preguntas de nivel "avanzado" (casos complejos, análisis profundo)
+DISTRIBUCIÓN OBLIGATORIA:
+- 5 preguntas nivel "básico"
+- 5 preguntas nivel "intermedio"
+- 5 preguntas nivel "avanzado"
 
-2. Cada pregunta debe tener exactamente 4 opciones de respuesta
-3. Las preguntas deben estar ordenadas por dificultad (básicas primero, avanzadas al final)
-4. Usa casos prácticos para niveles intermedio y avanzado
-5. Cita artículos cuando sea relevante
+RESPONDE ÚNICAMENTE CON JSON VÁLIDO EN ESTE FORMATO:
 
-FORMATO DE RESPUESTA (JSON válido):
 {
   "preguntas": [
     {
       "id": 1,
-      "pregunta": "texto de la pregunta",
-      "opciones": ["opción A", "opción B", "opción C", "opción D"],
+      "pregunta": "¿Qué es...?",
+      "opciones": ["A", "B", "C", "D"],
       "respuestaCorrecta": 0,
       "ramo": "${ramo}",
       "nivel": "básico"
@@ -57,15 +53,20 @@ FORMATO DE RESPUESTA (JSON válido):
   ]
 }
 
-IMPORTANTE:
-- respuestaCorrecta debe ser un número del 0 al 3 (índice del array opciones)
-- nivel debe ser exactamente: "básico", "intermedio" o "avanzado"
-- Genera EXACTAMENTE 15 preguntas
-- Responde SOLO con el JSON, sin texto adicional`;
+REGLAS:
+- Exactamente 15 preguntas (5 de cada nivel)
+- 4 opciones por pregunta
+- respuestaCorrecta: número 0-3
+- nivel: "básico", "intermedio" o "avanzado"
+- NO markdown, NO código, solo JSON puro`;
+
+    console.log('[Assessment] Generating for:', ramo, jurisdiccion);
 
     const message = await client.messages.create({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 4096,
+      max_tokens: 8192,
+      temperature: 1,
+      system: 'Eres un generador de evaluaciones de Derecho. SIEMPRE respondes con JSON válido puro, sin texto adicional, markdown, ni código.',
       messages: [
         {
           role: 'user',
@@ -76,25 +77,46 @@ IMPORTANTE:
 
     const content = message.content[0];
     if (content.type !== 'text') {
+      console.error('[Assessment] Non-text response');
       throw new Error('Respuesta inesperada de la API');
     }
 
+    console.log('[Assessment] Response length:', content.text.length);
+
     // Extract JSON from response
     let jsonText = content.text.trim();
+
+    // Remover markdown si existe
+    jsonText = jsonText.replace(/```json\n?/g, '').replace(/```\n?/g, '');
+
     const jsonMatch = jsonText.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       jsonText = jsonMatch[0];
     }
 
-    const assessmentData = JSON.parse(jsonText);
+    let assessmentData;
+    try {
+      assessmentData = JSON.parse(jsonText);
+    } catch (parseError) {
+      console.error('[Assessment] JSON parse error:', jsonText.substring(0, 200));
+      return NextResponse.json(
+        { error: 'Respuesta de IA no válida. Intenta de nuevo.' },
+        { status: 500 }
+      );
+    }
 
     // Validate structure
     if (!assessmentData.preguntas || !Array.isArray(assessmentData.preguntas)) {
-      throw new Error('Formato de evaluación inválido');
+      console.error('[Assessment] Invalid structure:', assessmentData);
+      return NextResponse.json(
+        { error: 'Formato de evaluación inválido' },
+        { status: 500 }
+      );
     }
 
     if (assessmentData.preguntas.length !== 15) {
-      throw new Error(`Se esperaban 15 preguntas, se recibieron ${assessmentData.preguntas.length}`);
+      console.warn('[Assessment] Expected 15 questions, got:', assessmentData.preguntas.length);
+      // No falla si no son exactamente 15, pero registra el warning
     }
 
     // Validate each question
@@ -112,12 +134,14 @@ IMPORTANTE:
       q.id = i + 1;
     });
 
+    console.log('[Assessment] Success! Generated', assessmentData.preguntas.length, 'questions');
     return NextResponse.json(assessmentData);
 
-  } catch (error) {
-    console.error('Error generando evaluación:', error);
+  } catch (error: any) {
+    console.error('[Assessment] Error:', error);
+    console.error('[Assessment] Error stack:', error?.stack);
     return NextResponse.json(
-      { error: 'Error al generar la evaluación' },
+      { error: error.message || 'Error al generar la evaluación. Intenta de nuevo.' },
       { status: 500 }
     );
   }

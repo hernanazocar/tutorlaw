@@ -23,13 +23,13 @@ export function LevelBadge() {
   return (
     <div className="relative">
       <div
-        className="flex flex-col items-center justify-center gap-0.5 px-2 py-2 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg cursor-pointer hover:from-purple-600 hover:to-purple-700 transition-all shadow-sm"
+        className="flex flex-col items-center justify-center gap-1 w-[85px] h-[85px] bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl cursor-pointer hover:from-purple-600 hover:to-purple-700 transition-all shadow-md hover:shadow-lg"
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
       >
-        <TrophyIcon className="w-3.5 h-3.5 text-white" />
-        <div className="text-center text-white">
-          <div className="text-xs font-bold whitespace-nowrap">Nivel {currentLevel.level}</div>
+        <TrophyIcon className="w-6 h-6 text-white" />
+        <div className="text-center text-white leading-tight">
+          <div className="text-sm font-bold whitespace-nowrap">Nivel {currentLevel.level}</div>
           <div className="text-xs opacity-90">{progress.xp} XP</div>
         </div>
       </div>

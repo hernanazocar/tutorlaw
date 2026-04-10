@@ -598,7 +598,7 @@ export default function ChatPage() {
           <TeacherModeToggle mode={teacherMode} onChange={setTeacherMode} />
 
           {/* Progreso */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <LevelBadge />
             <StreakCounter />
           </div>

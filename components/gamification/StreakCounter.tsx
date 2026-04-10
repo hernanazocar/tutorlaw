@@ -41,13 +41,13 @@ export function StreakCounter() {
   return (
     <div className="relative">
       <div
-        className="flex flex-col items-center justify-center gap-0.5 px-2 py-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg shadow-sm cursor-pointer hover:from-orange-600 hover:to-red-600 transition-all"
+        className="flex flex-col items-center justify-center gap-1 w-[85px] h-[85px] bg-gradient-to-br from-orange-500 to-red-500 rounded-xl shadow-md cursor-pointer hover:from-orange-600 hover:to-red-600 transition-all hover:shadow-lg"
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
       >
-        <FlameIcon className="w-3.5 h-3.5 text-white animate-pulse" />
-        <div className="text-center text-white">
-          <div className="text-xs font-bold whitespace-nowrap">{streakData.streak} día{streakData.streak !== 1 ? 's' : ''}</div>
+        <FlameIcon className="w-6 h-6 text-white animate-pulse" />
+        <div className="text-center text-white leading-tight">
+          <div className="text-sm font-bold whitespace-nowrap">{streakData.streak} día{streakData.streak !== 1 ? 's' : ''}</div>
           <div className="text-xs opacity-90">Racha</div>
         </div>
       </div>

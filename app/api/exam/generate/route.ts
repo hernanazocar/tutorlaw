@@ -60,7 +60,8 @@ IMPORTANTE:
 
     const message = await client.messages.create({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 4096,
+      max_tokens: 8192,
+      temperature: 1,
       messages: [
         {
           role: 'user',

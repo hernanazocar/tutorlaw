@@ -213,7 +213,7 @@ export function DailyChallenge({ isOpen, onClose, jurisdiccion }: DailyChallenge
 
               {/* Question */}
               <div className="mb-4">
-                <h3 className="text-base font-semibold text-gray-900 mb-3">
+                <h3 className="text-sm font-semibold text-gray-900 mb-2">
                   {challenge.pregunta}
                 </h3>
 
@@ -222,7 +222,7 @@ export function DailyChallenge({ isOpen, onClose, jurisdiccion }: DailyChallenge
                     const isSelected = selectedAnswer === index;
                     const isCorrectAnswer = index === challenge.respuestaCorrecta;
 
-                    let buttonClass = 'w-full text-left px-3 py-2 rounded-lg border-2 transition-all text-sm ';
+                    let buttonClass = 'w-full text-left px-3 py-2 rounded-lg border-2 transition-all text-xs ';
 
                     if (hasAnswered) {
                       if (isCorrectAnswer) {
@@ -253,9 +253,9 @@ export function DailyChallenge({ isOpen, onClose, jurisdiccion }: DailyChallenge
                           }`}>
                             {String.fromCharCode(65 + index)}.
                           </span>
-                          <span className="flex-1">{opcion}</span>
+                          <span className="flex-1 text-xs">{opcion}</span>
                           {hasAnswered && isCorrectAnswer && (
-                            <CheckCircleIcon className="w-5 h-5 text-green-600" />
+                            <CheckCircleIcon className="w-4 h-4 text-green-600" />
                           )}
                         </div>
                       </button>
@@ -266,14 +266,14 @@ export function DailyChallenge({ isOpen, onClose, jurisdiccion }: DailyChallenge
 
               {/* Result */}
               {hasAnswered && (
-                <div className={`rounded-lg p-3 ${
+                <div className={`rounded-lg p-2.5 ${
                   isCorrect ? 'bg-green-50 border-2 border-green-200' : 'bg-blue-50 border-2 border-blue-200'
                 }`}>
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className={`text-xl ${isCorrect ? '🎉' : '💡'}`}>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <div className={`text-base ${isCorrect ? '🎉' : '💡'}`}>
                       {isCorrect ? '🎉' : '💡'}
                     </div>
-                    <h4 className={`font-bold ${
+                    <h4 className={`font-bold text-sm ${
                       isCorrect ? 'text-green-900' : 'text-blue-900'
                     }`}>
                       {isCorrect ? '¡Correcto!' : 'Respuesta incorrecta'}
@@ -281,12 +281,12 @@ export function DailyChallenge({ isOpen, onClose, jurisdiccion }: DailyChallenge
                   </div>
 
                   {isCorrect && xpEarned > 0 && (
-                    <p className="text-sm text-green-700 font-semibold mb-2">
+                    <p className="text-xs text-green-700 font-semibold mb-1.5">
                       +{xpEarned} XP ganados
                     </p>
                   )}
 
-                  <p className={`text-sm ${
+                  <p className={`text-xs ${
                     isCorrect ? 'text-green-800' : 'text-blue-800'
                   }`}>
                     {challenge.explicacion}

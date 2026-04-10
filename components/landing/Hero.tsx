@@ -34,12 +34,11 @@ export function Hero() {
           {/* Left side - Text */}
           <div className="space-y-6 sm:space-y-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#e6f0ff] text-[#0066ff] rounded-full text-sm font-medium">
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M12 2L2 7L12 12L22 7L12 2Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M2 17L12 22L22 17" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M2 12L12 17L22 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              Potenciado por IA avanzada
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+              </span>
+              Copiloto jurídico para estudiantes de derecho
             </div>
 
             <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-bold text-[#212529] leading-[1.1] tracking-tight">

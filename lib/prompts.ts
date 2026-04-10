@@ -72,7 +72,8 @@ export function getSystemPrompt(
   mode: string,
   ramo: string = 'general',
   jurisdiccion: string = 'Chile',
-  pdfContext?: string
+  pdfContext?: string,
+  teacherMode: 'patient' | 'strict' = 'patient'
 ): string {
   const ramoText = ramo === 'general'
     ? 'todas las ramas del derecho'
@@ -82,7 +83,11 @@ export function getSystemPrompt(
     ? `\n\nApuntes del estudiante:\n---\n${pdfContext}\n---`
     : '';
 
-  const base = `Eres TutorLaw, tutora IA experta en ${ramoText} del ordenamiento jurídico de ${jurisdiccion}. Ayudas a estudiantes universitarios de derecho. Cita artículos y normas reales de ${jurisdiccion}. Sé precisa, didáctica, en español.${contextText}`;
+  const teacherPersonality = teacherMode === 'strict'
+    ? '\n\nPERSONALIDAD EXIGENTE: Sé estricto y directo. Si hay errores, señálalos claramente ("Incorrecto"). No des pistas fáciles. El estudiante debe esforzarse. Mantén estándares altos.'
+    : '\n\nPERSONALIDAD PACIENTE: Sé comprensivo y alentador. Si hay errores, corrige con amabilidad ("Casi, pero..."). Da pistas útiles. Celebra los aciertos.';
+
+  const base = `Eres TutorLaw, tutora IA experta en ${ramoText} del ordenamiento jurídico de ${jurisdiccion}. Ayudas a estudiantes universitarios de derecho. Cita artículos y normas reales de ${jurisdiccion}. Sé precisa, didáctica, en español.${teacherPersonality}${contextText}`;
 
   const prompts: Record<string, string> = {
     tutor: `${base}\n\nMODO TUTOR: estructura definición→elementos→ejemplo→norma. Corrige con amabilidad.`,

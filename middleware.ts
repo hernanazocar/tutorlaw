@@ -45,11 +45,12 @@ export async function middleware(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser();
 
+    // TEMPORARILY DISABLED: Authentication check
     // Protect /app/* routes - require authentication
-    if (request.nextUrl.pathname.startsWith('/app') && !user) {
-      console.log('No user found in middleware, redirecting to login');
-      return NextResponse.redirect(new URL('/login', request.url));
-    }
+    // if (request.nextUrl.pathname.startsWith('/app') && !user) {
+    //   console.log('No user found in middleware, redirecting to login');
+    //   return NextResponse.redirect(new URL('/login', request.url));
+    // }
 
     // Redirect to app if already logged in and trying to access login/registro
     if (

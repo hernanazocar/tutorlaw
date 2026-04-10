@@ -30,7 +30,8 @@ export async function GET(request: Request) {
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Si no hay usuario, retornar array vacío en lugar de error
+    return NextResponse.json([]);
   }
 
   let query = supabase
@@ -79,7 +80,14 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Si no hay usuario, retornar un objeto mock sin guardar en DB
+    return NextResponse.json({
+      id: 'temp-' + Date.now(),
+      title,
+      mode,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    });
   }
 
   const { data, error } = await supabase

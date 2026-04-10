@@ -1,0 +1,66 @@
+[
+  {
+    "codigo": "penal",
+    "numero": "1",
+    "libro": "Libro I - Disposiciones generales sobre los delitos, las penas y las circunstancias que modifican la responsabilidad criminal",
+    "titulo": "Definición de delito",
+    "contenido": "Es delito toda acción u omisión voluntaria penada por la ley.",
+    "url": "https://www.bcn.cl/leychile/navegar?idNorma=1984&idParte=8556952"
+  },
+  {
+    "codigo": "penal",
+    "numero": "2",
+    "libro": "Libro I - Disposiciones generales sobre los delitos, las penas y las circunstancias que modifican la responsabilidad criminal",
+    "titulo": "Clasificación de los delitos",
+    "contenido": "Las acciones u omisiones que cometidas con dolo o culpa sirven de base a la declaración de un delito o simple delito quedan sujetas a las disposiciones del presente Código. Las acciones u omisiones penadas por la ley se reputan siempre voluntarias, a no ser que conste lo contrario.",
+    "url": "https://www.bcn.cl/leychile/navegar?idNorma=1984&idParte=8556953"
+  },
+  {
+    "codigo": "penal",
+    "numero": "7",
+    "libro": "Libro I - Disposiciones generales sobre los delitos, las penas y las circunstancias que modifican la responsabilidad criminal",
+    "titulo": "Participación criminal",
+    "contenido": "Son responsables criminalmente de los delitos: 1º. Los autores. 2º. Los cómplices. 3º. Los encubridores.",
+    "url": "https://www.bcn.cl/leychile/navegar?idNorma=1984&idParte=8556958"
+  },
+  {
+    "codigo": "penal",
+    "numero": "10",
+    "libro": "Libro I - Disposiciones generales sobre los delitos, las penas y las circunstancias que modifican la responsabilidad criminal",
+    "titulo": "Causales de justificación",
+    "contenido": "Están exentos de responsabilidad criminal: 1º El que obra en cumplimiento de un deber o en el ejercicio legítimo de un derecho, autoridad, oficio o cargo. 2º El que obra en defensa de su persona o derechos, siempre que concurran las circunstancias siguientes: Primera. Agresión ilegítima. Segunda. Necesidad racional del medio empleado para impedirla o repelerla. Tercera. Falta de provocación suficiente por parte del que se defiende. 3º El que obra en defensa de la persona o derechos de su cónyuge, de sus parientes consanguíneos legítimos en toda la línea recta y en la colateral hasta el cuarto grado inclusive, de sus afines legítimos en toda la línea recta y en la colateral hasta el segundo grado inclusive, de sus padres o hijos naturales o ilegítimos reconocidos, siempre que concurran la primera y segunda circunstancias prescritas en el número anterior, y la de que, en caso de haber precedido provocación de parte del acometido, no tuviere participación en ella el defensor.",
+    "url": "https://www.bcn.cl/leychile/navegar?idNorma=1984&idParte=8556961"
+  },
+  {
+    "codigo": "penal",
+    "numero": "11",
+    "libro": "Libro I - Disposiciones generales sobre los delitos, las penas y las circunstancias que modifican la responsabilidad criminal",
+    "titulo": "Eximente de responsabilidad penal",
+    "contenido": "Están exentos de responsabilidad criminal: 1º El loco o demente, a no ser que haya obrado en un intervalo lúcido, y el que, por cualquier causa independiente de su voluntad, se halla privado totalmente de razón. 2º El menor de dieciséis años. 3º El que obra violentado por una fuerza irresistible o impulsado por un miedo insuperable. 4º El que obra en defensa de su persona o derechos, siempre que concurran las circunstancias siguientes: Primera. Agresión ilegítima. Segunda. Necesidad racional del medio empleado para impedirla o repelerla. Tercera. Falta de provocación suficiente por parte del que se defiende.",
+    "url": "https://www.bcn.cl/leychile/navegar?idNorma=1984&idParte=8556962"
+  },
+  {
+    "codigo": "penal",
+    "numero": "391",
+    "libro": "Libro II - Crímenes y simples delitos y sus penas",
+    "titulo": "Homicidio simple",
+    "contenido": "El que mate a otro será penado: 1º. Con presidio mayor en su grado máximo a presidio perpetuo, si ejecutare el homicidio con alguna de las circunstancias siguientes: Primera. Con alevosía. Segunda. Por premio o promesa remuneratoria. Tercera. Por medio de veneno. Cuarta. Con ensañamiento, aumentando deliberada e inhumanamente el dolor al ofendido. Quinta. Con premeditación conocida. 2º. Con presidio mayor en sus grados mínimo a medio en cualquier otro caso.",
+    "url": "https://www.bcn.cl/leychile/navegar?idNorma=1984&idParte=8557736"
+  },
+  {
+    "codigo": "penal",
+    "numero": "432",
+    "libro": "Libro II - Crímenes y simples delitos y sus penas",
+    "titulo": "Robo con violencia o intimidación",
+    "contenido": "Los que con violencia o intimidación en las personas cometieren robo, hurto o extorsión, serán penados: 1º. Con presidio mayor en su grado medio a máximo y multa de treinta y una a cuarenta unidades tributarias mensuales, si con motivo u ocasión del robo resultare un homicidio.",
+    "url": "https://www.bcn.cl/leychile/navegar?idNorma=1984&idParte=8557777"
+  },
+  {
+    "codigo": "penal",
+    "numero": "446",
+    "libro": "Libro II - Crímenes y simples delitos y sus penas",
+    "titulo": "Hurto",
+    "contenido": "Los que con ánimo de lucrarse y sin la voluntad de su dueño se apropian cosa mueble ajena usando de violencia o intimidación en las personas o de fuerza en las cosas, cometen robo; si faltan la violencia, la intimidación y la fuerza, el delito se califica de hurto.",
+    "url": "https://www.bcn.cl/leychile/navegar?idNorma=1984&idParte=8557791"
+  }
+]

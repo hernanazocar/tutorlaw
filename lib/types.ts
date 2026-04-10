@@ -55,6 +55,7 @@ export type ChatRequest = {
   jurisdiccion?: string;
   sessionId?: string;
   anonymous?: boolean;
+  teacherMode?: 'patient' | 'strict';
 };
 
 export type FlashcardRequest = {

@@ -4,13 +4,76 @@ import { getSystemPrompt } from '@/lib/prompts';
 import { createSupabaseServer } from '@/lib/supabase/server';
 import { canMakeQuery } from '@/lib/limits';
 import type { ChatRequest } from '@/lib/types';
+import OpenAI from 'openai';
 
 export const runtime = 'edge';
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+// Función para buscar artículos relevantes usando RAG
+async function buscarArticulosRelevantes(query: string, supabase: any): Promise<string> {
+  try {
+    // Generar embedding de la consulta
+    const embeddingResponse = await openai.embeddings.create({
+      model: 'text-embedding-3-small',
+      input: query,
+    });
+
+    const queryEmbedding = embeddingResponse.data[0].embedding;
+
+    // Buscar artículos similares
+    const { data: articulos, error } = await supabase.rpc('buscar_articulos_semanticos', {
+      query_embedding: queryEmbedding,
+      match_threshold: 0.7,
+      match_count: 5,
+      filtro_codigo: null,
+    });
+
+    if (error || !articulos || articulos.length === 0) {
+      return '';
+    }
+
+    // Formatear artículos como contexto
+    const contextoArticulos = articulos.map((art: any) => {
+      const codigoNombre = art.codigo === 'civil' ? 'Código Civil' : 'Código Penal';
+      return `
+📜 ${codigoNombre} - Artículo ${art.numero}
+${art.libro ? `Libro: ${art.libro}` : ''}
+${art.titulo ? `Título: ${art.titulo}` : ''}
+
+${art.contenido}
+
+Relevancia: ${(art.similarity * 100).toFixed(1)}%
+      `.trim();
+    }).join('\n\n---\n\n');
+
+    return `
+# LEGISLACIÓN RELEVANTE ENCONTRADA
+
+Los siguientes artículos son relevantes para esta consulta:
+
+${contextoArticulos}
+
+---
+
+IMPORTANTE:
+- DEBES citar estos artículos en tu respuesta cuando sean aplicables
+- Usa el formato: "Artículo XXX del Código Civil/Penal establece que..."
+- Si un artículo es directamente relevante, cítalo textualmente
+- No inventes artículos que no están en este contexto
+    `.trim();
+  } catch (error) {
+    console.error('Error buscando artículos:', error);
+    return '';
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
     const body: ChatRequest = await req.json();
-    const { messages, mode = 'tutor', ramo = 'general', jurisdiccion = 'Chile', sessionId, anonymous = false } = body;
+    const { messages, mode = 'tutor', ramo = 'general', jurisdiccion = 'Chile', sessionId, anonymous = false, teacherMode = 'patient' } = body;
 
     if (!messages || messages.length === 0) {
       return NextResponse.json(
@@ -70,8 +133,20 @@ export async function POST(req: NextRequest) {
 
     const client = new Anthropic({ apiKey });
 
+    // **RAG: Buscar artículos relevantes**
+    const supabase = await createSupabaseServer();
+    const ultimoMensajeUsuario = messages.filter(m => m.role === 'user').slice(-1)[0]?.content || '';
+    const contextoRAG = await buscarArticulosRelevantes(ultimoMensajeUsuario, supabase);
+
     // Obtener system prompt según el modo
-    const systemPrompt = getSystemPrompt(mode, ramo, jurisdiccion);
+    let systemPrompt = getSystemPrompt(mode, ramo, jurisdiccion, undefined, teacherMode as 'patient' | 'strict');
+
+    // Agregar contexto RAG al system prompt si hay artículos relevantes
+    if (contextoRAG) {
+      systemPrompt = `${systemPrompt}
+
+${contextoRAG}`;
+    }
 
     // Formatear mensajes para Claude
     const formattedMessages = messages.map(msg => ({

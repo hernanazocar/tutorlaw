@@ -3,91 +3,102 @@
 import { useState, useEffect, useRef } from 'react';
 import { Logo } from '@/components/ui/Logo';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { SuggestionsPanel } from '@/components/chat/SuggestionsPanel';
+import { TypingIndicator } from '@/components/chat/TypingIndicator';
+import { QuickTemplates } from '@/components/chat/QuickTemplates';
+import { MateriaTags } from '@/components/chat/MateriaTags';
+import { TeacherModeToggle, type TeacherMode } from '@/components/chat/TeacherModeToggle';
+import { LevelBadge } from '@/components/gamification/LevelBadge';
+import { StreakCounter } from '@/components/gamification/StreakCounter';
+import { QuickQuizModal } from '@/components/gamification/QuickQuizModal';
+import { ExamSimulator } from '@/components/gamification/ExamSimulator';
+import { DailyChallenge } from '@/components/gamification/DailyChallenge';
+import { FlashcardGenerator } from '@/components/flashcards/FlashcardGenerator';
+import { KnowledgeAssessment } from '@/components/assessment/KnowledgeAssessment';
+import { MindMapGenerator } from '@/components/mindmap/MindMapGenerator';
+import { OralDebateMode } from '@/components/debate/OralDebateMode';
+import { exportToPDF } from '@/lib/pdf-export';
+import { detectMaterias, type MateriaTag } from '@/lib/auto-tags';
 import type { Conversation, ConversationMessage } from '@/lib/types';
+import {
+  BookIcon,
+  SearchIcon,
+  ScaleIcon,
+  MessageIcon,
+  PencilIcon,
+  MicIcon,
+  FileTextIcon,
+  LightningIcon,
+  CheckCircleIcon,
+  SettingsIcon,
+  NoteIcon,
+  ChartBarIcon,
+  LogOutIcon,
+  TargetIcon,
+  SparklesIcon,
+  BrainIcon,
+  ClockIcon,
+  CalendarIcon,
+} from '@/components/ui/Icons';
 
 const MODOS = [
   {
     id: 'tutor',
-    nombre: 'Modo Tutor',
+    nombre: 'Tutor',
     descripcion: 'Explicaciones paso a paso',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-5 h-5">
-        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-    color: 'from-blue-500 to-blue-600',
+    icon: BookIcon,
+    color: 'bg-blue-50 text-blue-600 border-blue-200',
+    activeColor: 'from-blue-500 to-blue-600',
   },
   {
     id: 'socratico',
     nombre: 'Socrático',
     descripcion: 'Aprende preguntando',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-5 h-5">
-        <circle cx="11" cy="11" r="8" strokeWidth="2"/>
-        <path d="M21 21l-4.35-4.35" strokeWidth="2" strokeLinecap="round"/>
-      </svg>
-    ),
-    color: 'from-purple-500 to-purple-600',
+    icon: SearchIcon,
+    color: 'bg-purple-50 text-purple-600 border-purple-200',
+    activeColor: 'from-purple-500 to-purple-600',
   },
   {
     id: 'caso',
-    nombre: 'Caso IRAC',
-    descripcion: 'Resuelve casos prácticos',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-5 h-5">
-        <path d="M12 3L4 9L12 15L20 9L12 3Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M4 15L12 21L20 15" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-    color: 'from-green-500 to-green-600',
+    nombre: 'IRAC',
+    descripcion: 'Resuelve casos',
+    icon: ScaleIcon,
+    color: 'bg-emerald-50 text-emerald-600 border-emerald-200',
+    activeColor: 'from-emerald-500 to-emerald-600',
   },
   {
     id: 'debate',
     nombre: 'Debate',
-    descripcion: 'Argumenta y defiende',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-5 h-5">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-    color: 'from-orange-500 to-orange-600',
+    descripcion: 'Argumenta',
+    icon: MessageIcon,
+    color: 'bg-orange-50 text-orange-600 border-orange-200',
+    activeColor: 'from-orange-500 to-orange-600',
   },
   {
     id: 'examen',
     nombre: 'Examen',
-    descripcion: 'Genera preguntas',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-5 h-5">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M14 2v6h6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-    color: 'from-red-500 to-red-600',
+    descripcion: 'Preguntas',
+    icon: PencilIcon,
+    color: 'bg-red-50 text-red-600 border-red-200',
+    activeColor: 'from-red-500 to-red-600',
   },
   {
     id: 'oral',
-    nombre: 'Examen Oral',
+    nombre: 'Oral',
     descripcion: 'Simula oral',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-5 h-5">
-        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M19 10v2a7 7 0 0 1-14 0v-2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-    color: 'from-pink-500 to-pink-600',
+    icon: MicIcon,
+    color: 'bg-pink-50 text-pink-600 border-pink-200',
+    activeColor: 'from-pink-500 to-pink-600',
   },
   {
     id: 'ensayo',
     nombre: 'Ensayo',
-    descripcion: 'Evalúa tu redacción',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-5 h-5">
-        <path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-    color: 'from-indigo-500 to-indigo-600',
+    descripcion: 'Evalúa redacción',
+    icon: FileTextIcon,
+    color: 'bg-indigo-50 text-indigo-600 border-indigo-200',
+    activeColor: 'from-indigo-500 to-indigo-600',
   },
 ];
 
@@ -100,7 +111,19 @@ export default function ChatPage() {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showTemplates, setShowTemplates] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [currentTags, setCurrentTags] = useState<MateriaTag[]>([]);
+  const [teacherMode, setTeacherMode] = useState<TeacherMode>('patient');
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [showExam, setShowExam] = useState(false);
+  const [showChallenge, setShowChallenge] = useState(false);
+  const [showFlashcards, setShowFlashcards] = useState(false);
+  const [showAssessment, setShowAssessment] = useState(false);
+  const [showMindMap, setShowMindMap] = useState(false);
+  const [showOralDebate, setShowOralDebate] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const recognitionRef = useRef<any>(null);
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -186,6 +209,10 @@ export default function ChatPage() {
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setLoading(true);
 
+    // Detectar materias automáticamente
+    const detectedTags = detectMaterias(userMessage);
+    setCurrentTags(detectedTags);
+
     let conversationId = currentConversationId;
 
     // Create new conversation if this is the first message
@@ -205,6 +232,8 @@ export default function ChatPage() {
         body: JSON.stringify({
           messages: [...messages, { role: 'user', content: userMessage }],
           mode: modoActual.id,
+          anonymous: true, // Permitir uso sin autenticación
+          teacherMode, // Modo profe paciente/exigente
         }),
       });
 
@@ -256,35 +285,153 @@ export default function ChatPage() {
     setInput(prompt);
   };
 
+  const handleSelectTemplate = (suffix: string) => {
+    setInput(prev => prev + suffix);
+    setShowTemplates(false);
+  };
+
+  const handleExportPDF = () => {
+    if (messages.length === 0) {
+      alert('No hay mensajes para exportar');
+      return;
+    }
+
+    const title = currentConversationId
+      ? conversations.find(c => c.id === currentConversationId)?.title || 'Conversación'
+      : 'Conversación';
+
+    exportToPDF(messages, modoActual.nombre, title);
+  };
+
+  const startVoiceRecognition = () => {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      alert('Tu navegador no soporta reconocimiento de voz. Usa Chrome o Edge.');
+      return;
+    }
+
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = 'es-CL';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setInput(prev => prev + (prev ? ' ' : '') + transcript);
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error('Speech recognition error:', event.error);
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognitionRef.current = recognition;
+    recognition.start();
+  };
+
+  const stopVoiceRecognition = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    }
+  };
+
   return (
     <div className="flex h-screen bg-[#f8f9fa]">
       {/* Sidebar */}
-      <div className={`${sidebarOpen ? 'w-64' : 'w-0'} transition-all duration-300 bg-white border-r border-[#e9ecef] flex flex-col overflow-hidden`}>
+      <div className={`${sidebarOpen ? 'w-64' : 'w-0'} transition-all duration-300 bg-white border-r border-[#e9ecef] flex flex-col overflow-hidden shadow-sm`}>
         {/* Header Sidebar */}
-        <div className="p-3 border-b border-[#e9ecef]">
+        <div className="p-4 border-b border-[#e9ecef] bg-gradient-to-br from-blue-50 to-white">
           <Logo size="sm" showText={true} />
-          <p className="text-xs text-[#6c757d] mt-1">Estudiando con IA</p>
+          <p className="text-xs text-[#6c757d] mt-1.5 font-medium">Tu tutor jurídico con IA</p>
         </div>
 
         {/* New Conversation Button */}
         <div className="p-2 border-b border-[#e9ecef]">
           <button
             onClick={startNewConversation}
-            className="w-full px-3 py-2 bg-[#0066ff] text-white rounded-lg text-sm font-semibold hover:bg-[#0052cc] transition-colors flex items-center justify-center gap-2"
+            className="w-full px-3 py-1.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg text-xs font-bold hover:from-blue-700 hover:to-blue-800 transition-all flex items-center justify-center gap-1.5 shadow-sm hover:shadow-md"
           >
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M12 5v14M5 12h14" strokeWidth="2" strokeLinecap="round"/>
+            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M12 5v14M5 12h14" strokeLinecap="round"/>
             </svg>
-            Nueva conversación
+            <span>Nueva</span>
           </button>
+        </div>
+
+        {/* Mi Progreso */}
+        <div className="p-1.5 mb-2 bg-gradient-to-br from-purple-50 to-white border-b border-[#e9ecef]">
+          <h3 className="text-xs font-semibold text-[#6c757d] uppercase tracking-wide mb-1 px-1">
+            Progreso
+          </h3>
+          <div className="grid grid-cols-2 gap-1.5">
+            <LevelBadge />
+            <StreakCounter />
+          </div>
+        </div>
+
+        {/* Práctica */}
+        <div className="p-2 mb-2 bg-gradient-to-br from-blue-50 to-white border-b border-[#e9ecef]">
+          <h3 className="text-xs font-bold text-[#6c757d] uppercase tracking-wide mb-1.5 px-1">
+            Práctica
+          </h3>
+          <div className="space-y-1.5">
+            <div className="grid grid-cols-2 gap-1.5">
+              <button
+                onClick={() => setShowChallenge(true)}
+                className="px-2 py-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-lg text-xs font-bold hover:from-pink-600 hover:to-rose-600 transition-all flex flex-col items-center justify-center gap-0.5 shadow-sm hover:shadow-md"
+              >
+                <TargetIcon className="w-3.5 h-3.5" />
+                <span className="text-xs">Desafío</span>
+              </button>
+              <button
+                onClick={() => setShowAssessment(true)}
+                className="px-2 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg text-xs font-bold hover:from-cyan-600 hover:to-blue-600 transition-all flex flex-col items-center justify-center gap-0.5 shadow-sm hover:shadow-md"
+              >
+                <BrainIcon className="w-3.5 h-3.5" />
+                <span className="text-xs">Test</span>
+              </button>
+              <button
+                onClick={() => setShowFlashcards(true)}
+                className="px-2 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-lg text-xs font-bold hover:from-indigo-600 hover:to-purple-600 transition-all flex flex-col items-center justify-center gap-0.5 shadow-sm hover:shadow-md"
+              >
+                <SparklesIcon className="w-3.5 h-3.5" />
+                <span className="text-xs">Cards</span>
+              </button>
+              <button
+                onClick={() => setShowQuiz(true)}
+                className="px-2 py-2 bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-lg text-xs font-bold hover:from-amber-500 hover:to-orange-600 transition-all flex flex-col items-center justify-center gap-0.5 shadow-sm hover:shadow-md"
+              >
+                <LightningIcon className="w-3.5 h-3.5" />
+                <span className="text-xs">Quiz</span>
+              </button>
+            </div>
+
+            <button
+              onClick={() => setShowExam(true)}
+              className="w-full px-2 py-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg text-xs font-bold hover:from-purple-600 hover:to-blue-600 transition-all flex items-center justify-center gap-1.5 shadow-sm hover:shadow-md"
+            >
+              <CheckCircleIcon className="w-3.5 h-3.5" />
+              <span className="text-xs">Examen</span>
+            </button>
+          </div>
         </div>
 
         {/* Modos de estudio */}
         <div className="flex-1 overflow-y-auto p-2">
-          <h3 className="text-xs font-bold text-[#6c757d] uppercase tracking-wider mb-2 px-2">
-            Modos
+          <h3 className="text-xs font-bold text-[#6c757d] uppercase tracking-wide mb-1.5 px-1">
+            Modos de Estudio
           </h3>
-          <div className="space-y-1">
+          <div className="grid grid-cols-2 gap-1.5">
             {MODOS.map((modo) => (
               <button
                 key={modo.id}
@@ -292,42 +439,38 @@ export default function ChatPage() {
                   setModoActual(modo);
                   startNewConversation();
                 }}
-                className={`w-full text-left p-2 rounded-lg transition-all duration-200 ${
+                className={`text-center p-1.5 rounded-lg transition-all duration-200 border ${
                   modoActual.id === modo.id
-                    ? 'bg-gradient-to-r ' + modo.color + ' text-white shadow-md'
-                    : 'bg-[#f8f9fa] text-[#212529] hover:bg-[#e9ecef]'
+                    ? 'bg-gradient-to-br ' + modo.activeColor + ' text-white shadow-md scale-105 border-transparent'
+                    : modo.color + ' border hover:shadow-sm'
                 }`}
               >
-                <div className="flex items-center gap-2">
-                  <div className={`${modoActual.id === modo.id ? 'text-white' : 'text-[#0066ff]'} w-4 h-4`}>
-                    {modo.icon}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-xs truncate">{modo.nombre}</div>
-                  </div>
+                <div className="mb-0.5 flex justify-center">
+                  <modo.icon className="w-4 h-4" />
                 </div>
+                <div className="font-semibold text-xs truncate">{modo.nombre}</div>
               </button>
             ))}
           </div>
 
           {/* Historial */}
           {conversations.length > 0 && (
-            <div className="mt-4">
-              <h3 className="text-xs font-bold text-[#6c757d] uppercase tracking-wider mb-2 px-2">
-                Historial
+            <div className="mt-3 pt-3 border-t border-[#e9ecef]">
+              <h3 className="text-xs font-bold text-[#6c757d] uppercase tracking-wide mb-1.5 px-1">
+                Recientes
               </h3>
-              <div className="space-y-1">
+              <div className="space-y-1.5">
                 {conversations.slice(0, 5).map((conv) => (
                   <button
                     key={conv.id}
                     onClick={() => setCurrentConversationId(conv.id)}
-                    className={`w-full text-left p-2 rounded-lg transition-colors ${
+                    className={`w-full text-left px-3 py-2 rounded-lg transition-all ${
                       currentConversationId === conv.id
-                        ? 'bg-[#e6f0ff] text-[#0066ff]'
-                        : 'text-[#212529] hover:bg-[#f8f9fa]'
+                        ? 'bg-blue-50 text-blue-600 border border-blue-200 shadow-sm'
+                        : 'text-[#212529] hover:bg-gray-50 border border-transparent'
                     }`}
                   >
-                    <div className="text-xs font-medium truncate">{conv.title}</div>
+                    <div className="text-xs font-medium truncate mb-0.5">{conv.title}</div>
                     <div className="text-xs text-[#6c757d]">
                       {new Date(conv.created_at).toLocaleDateString('es-ES', {
                         day: 'numeric',
@@ -361,24 +504,77 @@ export default function ChatPage() {
             </button>
 
             {showUserMenu && (
-              <div className="absolute bottom-full left-0 right-0 mb-2 bg-white border border-[#e9ecef] rounded-lg shadow-lg overflow-hidden">
-                <Link
-                  href="/app/settings"
-                  className="block px-3 py-2 hover:bg-[#f8f9fa] transition-colors text-xs text-[#212529]"
+              <div className="absolute bottom-full left-0 right-0 mb-2 bg-white border border-[#e9ecef] rounded-lg shadow-lg overflow-hidden max-h-96 overflow-y-auto">
+                <button
+                  onClick={() => {
+                    setShowOralDebate(true);
+                    setShowUserMenu(false);
+                  }}
+                  className="w-full flex items-center gap-2 text-left px-3 py-2 hover:bg-[#f8f9fa] transition-colors text-xs text-[#212529]"
                 >
-                  ⚙️ Configuración
+                  <MicIcon className="w-3.5 h-3.5" />
+                  <span>Debate Oral</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setShowMindMap(true);
+                    setShowUserMenu(false);
+                  }}
+                  className="w-full flex items-center gap-2 text-left px-3 py-2 hover:bg-[#f8f9fa] transition-colors text-xs text-[#212529]"
+                >
+                  <BrainIcon className="w-3.5 h-3.5" />
+                  <span>Mapas Mentales</span>
+                </button>
+                <Link
+                  href="/app/calendar"
+                  className="flex items-center gap-2 px-3 py-2 hover:bg-[#f8f9fa] transition-colors text-xs text-[#212529]"
+                >
+                  <CalendarIcon className="w-3.5 h-3.5" />
+                  <span>Calendario</span>
+                </Link>
+                <Link
+                  href="/app/whatsapp"
+                  className="flex items-center gap-2 px-3 py-2 hover:bg-[#f8f9fa] transition-colors text-xs text-[#212529]"
+                >
+                  <MessageIcon className="w-3.5 h-3.5" />
+                  <span>WhatsApp Bot</span>
+                </Link>
+                <div className="border-t border-gray-200"></div>
+                <Link
+                  href="/app/summary"
+                  className="flex items-center gap-2 px-3 py-2 hover:bg-[#f8f9fa] transition-colors text-xs text-[#212529]"
+                >
+                  <ClockIcon className="w-3.5 h-3.5" />
+                  <span>Resumen Diario</span>
+                </Link>
+                <Link
+                  href="/app/dashboard"
+                  className="flex items-center gap-2 px-3 py-2 hover:bg-[#f8f9fa] transition-colors text-xs text-[#212529]"
+                >
+                  <ChartBarIcon className="w-3.5 h-3.5" />
+                  <span>Dashboard</span>
                 </Link>
                 <Link
                   href="/app/notes"
-                  className="block px-3 py-2 hover:bg-[#f8f9fa] transition-colors text-xs text-[#212529]"
+                  className="flex items-center gap-2 px-3 py-2 hover:bg-[#f8f9fa] transition-colors text-xs text-[#212529]"
                 >
-                  📝 Apuntes
+                  <NoteIcon className="w-3.5 h-3.5" />
+                  <span>Apuntes</span>
                 </Link>
+                <Link
+                  href="/app/settings"
+                  className="flex items-center gap-2 px-3 py-2 hover:bg-[#f8f9fa] transition-colors text-xs text-[#212529]"
+                >
+                  <SettingsIcon className="w-3.5 h-3.5" />
+                  <span>Configuración</span>
+                </Link>
+                <div className="border-t border-gray-200"></div>
                 <button
                   onClick={handleLogout}
-                  className="w-full text-left px-3 py-2 hover:bg-[#f8f9fa] transition-colors text-xs text-red-600"
+                  className="w-full flex items-center gap-2 text-left px-3 py-2 hover:bg-[#f8f9fa] transition-colors text-xs text-red-600"
                 >
-                  🚪 Cerrar sesión
+                  <LogOutIcon className="w-3.5 h-3.5" />
+                  <span>Cerrar sesión</span>
                 </button>
               </div>
             )}
@@ -398,21 +594,38 @@ export default function ChatPage() {
               <path d="M3 12h18M3 6h18M3 18h18" strokeWidth="2" strokeLinecap="round"/>
             </svg>
           </button>
-          <div>
+          <div className="flex-1">
             <h1 className="font-bold text-base text-[#212529]">{modoActual.nombre}</h1>
             <p className="text-xs text-[#6c757d]">{modoActual.descripcion}</p>
           </div>
+
+          <TeacherModeToggle mode={teacherMode} onChange={setTeacherMode} />
+
+          {messages.length > 0 && (
+            <button
+              onClick={handleExportPDF}
+              className="flex items-center gap-2 px-3 py-1.5 text-sm text-[#0066ff] hover:bg-[#e6f0ff] rounded-lg transition-colors"
+              title="Exportar a PDF"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <polyline points="7 10 12 15 17 10" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <line x1="12" y1="15" x2="12" y2="3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span className="hidden sm:inline">PDF</span>
+            </button>
+          )}
         </div>
 
         {/* Messages Area */}
         <div className="flex-1 overflow-y-auto p-4">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center max-w-lg mx-auto">
-              <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${modoActual.color} flex items-center justify-center text-white mb-4`}>
-                {modoActual.icon}
+              <div className="mb-4">
+                <modoActual.icon className="w-20 h-20 mx-auto text-gray-400" />
               </div>
-              <h2 className="text-lg font-bold text-[#212529] mb-2">
-                {modoActual.nombre}
+              <h2 className="text-xl font-bold text-[#212529] mb-2">
+                Modo {modoActual.nombre}
               </h2>
               <p className="text-sm text-[#6c757d] mb-4">
                 {modoActual.id === 'tutor' && 'Explicaciones paso a paso con ejemplos y artículos del código'}
@@ -439,19 +652,44 @@ export default function ChatPage() {
                     }`}
                   >
                     {message.role === 'assistant' && (
-                      <div className="flex items-center gap-2 mb-2 text-[#6c757d]">
-                        <div className={`w-5 h-5 rounded-lg bg-gradient-to-br ${modoActual.color} flex items-center justify-center text-white`}>
-                          <div className="w-3 h-3">{modoActual.icon}</div>
-                        </div>
-                        <span className="text-xs font-semibold">{modoActual.nombre}</span>
+                      <div className="flex items-center gap-2 mb-2">
+                        <modoActual.icon className="w-4 h-4 text-gray-500" />
+                        <span className="text-xs font-semibold text-[#6c757d]">TutorLaw</span>
                       </div>
                     )}
-                    <div className="text-sm whitespace-pre-wrap leading-relaxed">
-                      {message.content}
+                    <div className="text-sm leading-relaxed">
+                      {message.role === 'user' ? (
+                        <div className="whitespace-pre-wrap">{message.content}</div>
+                      ) : (
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          components={{
+                            h1: ({node, ...props}) => <h1 className="text-xl font-bold mt-4 mb-2" {...props} />,
+                            h2: ({node, ...props}) => <h2 className="text-lg font-bold mt-3 mb-2" {...props} />,
+                            h3: ({node, ...props}) => <h3 className="text-base font-bold mt-3 mb-1" {...props} />,
+                            p: ({node, ...props}) => <p className="mb-2" {...props} />,
+                            ul: ({node, ...props}) => <ul className="list-disc list-inside mb-2 space-y-1" {...props} />,
+                            ol: ({node, ...props}) => <ol className="list-decimal list-inside mb-2 space-y-1" {...props} />,
+                            li: ({node, ...props}) => <li className="ml-2" {...props} />,
+                            strong: ({node, ...props}) => <strong className="font-bold" {...props} />,
+                            em: ({node, ...props}) => <em className="italic" {...props} />,
+                            code: ({node, inline, ...props}: any) =>
+                              inline ?
+                                <code className="bg-[#f8f9fa] px-1 py-0.5 rounded text-xs font-mono" {...props} /> :
+                                <code className="block bg-[#f8f9fa] p-2 rounded my-2 text-xs font-mono overflow-x-auto" {...props} />,
+                            blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-[#e9ecef] pl-3 my-2 italic text-[#6c757d]" {...props} />,
+                          }}
+                        >
+                          {message.content}
+                        </ReactMarkdown>
+                      )}
                     </div>
                   </div>
                 </div>
               ))}
+{loading && messages.length > 0 && messages[messages.length - 1]?.role === 'user' && (
+                <TypingIndicator modoColor={modoActual.activeColor} />
+              )}
               <div ref={messagesEndRef} />
             </div>
           )}
@@ -460,24 +698,77 @@ export default function ChatPage() {
         {/* Input Area */}
         <div className="bg-white border-t border-[#e9ecef] p-3">
           <div className="max-w-3xl mx-auto">
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
-                placeholder={`Escribe tu ${modoActual.id === 'caso' ? 'caso' : 'pregunta'}...`}
-                className="flex-1 px-4 py-2.5 text-sm bg-[#f8f9fa] border border-[#e9ecef] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0066ff] focus:border-transparent text-[#212529] placeholder-[#6c757d]"
-                disabled={loading}
+            <div className="relative">
+              <QuickTemplates
+                visible={showTemplates}
+                onSelectTemplate={handleSelectTemplate}
               />
-              <button
-                onClick={handleSend}
-                disabled={loading || !input.trim()}
-                className="px-6 py-2.5 bg-[#0066ff] text-white rounded-lg text-sm font-semibold hover:bg-[#0052cc] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                {loading ? 'Pensando...' : 'Enviar'}
-              </button>
+              <div className="flex gap-2">
+                {/* Templates Button */}
+                <button
+                  onClick={() => setShowTemplates(!showTemplates)}
+                  className={`p-2.5 rounded-lg transition-colors ${
+                    showTemplates
+                      ? 'bg-[#0066ff] text-white'
+                      : 'bg-[#f8f9fa] text-[#6c757d] hover:bg-[#e9ecef]'
+                  }`}
+                  title="Templates rápidos"
+                >
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+
+                {/* Voice Button */}
+                <button
+                  onClick={isListening ? stopVoiceRecognition : startVoiceRecognition}
+                  className={`p-2.5 rounded-lg transition-colors ${
+                    isListening
+                      ? 'bg-red-500 text-white animate-pulse'
+                      : 'bg-[#f8f9fa] text-[#6c757d] hover:bg-[#e9ecef]'
+                  }`}
+                  title={isListening ? 'Detener grabación' : 'Dictar con voz'}
+                  disabled={loading}
+                >
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <line x1="12" y1="19" x2="12" y2="23" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <line x1="8" y1="23" x2="16" y2="23" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+
+                {/* Input */}
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
+                  onFocus={() => setShowTemplates(false)}
+                  placeholder={`Escribe tu ${modoActual.id === 'caso' ? 'caso' : 'pregunta'}...`}
+                  className="flex-1 px-4 py-2.5 text-sm bg-[#f8f9fa] border border-[#e9ecef] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0066ff] focus:border-transparent text-[#212529] placeholder-[#6c757d]"
+                  disabled={loading}
+                />
+
+                {/* Send Button */}
+                <button
+                  onClick={handleSend}
+                  disabled={loading || !input.trim()}
+                  className="px-6 py-2.5 bg-[#0066ff] text-white rounded-lg text-sm font-semibold hover:bg-[#0052cc] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  {loading ? 'Pensando...' : 'Enviar'}
+                </button>
+              </div>
             </div>
+
+            {/* Tags detectados */}
+            {currentTags.length > 0 && (
+              <div className="mt-3">
+                <p className="text-xs text-[#6c757d] mb-2">Materias detectadas:</p>
+                <MateriaTags tags={currentTags} />
+              </div>
+            )}
+
             <p className="text-xs text-[#6c757d] mt-2 text-center">
               TutorLaw puede cometer errores. Verifica información importante.
             </p>
@@ -487,6 +778,53 @@ export default function ChatPage() {
 
       {/* Suggestions Panel */}
       <SuggestionsPanel mode={modoActual.id} onSelectSuggestion={handleSelectSuggestion} />
+
+      {/* Quick Quiz Modal */}
+      <QuickQuizModal isOpen={showQuiz} onClose={() => setShowQuiz(false)} />
+
+      {/* Exam Simulator Modal */}
+      <ExamSimulator
+        isOpen={showExam}
+        onClose={() => setShowExam(false)}
+        ramo={modoActual.nombre}
+        jurisdiccion="Chile"
+      />
+
+      {/* Daily Challenge Modal */}
+      <DailyChallenge
+        isOpen={showChallenge}
+        onClose={() => setShowChallenge(false)}
+        jurisdiccion="Chile"
+      />
+
+      {/* Flashcard Generator Modal */}
+      <FlashcardGenerator
+        isOpen={showFlashcards}
+        onClose={() => setShowFlashcards(false)}
+        jurisdiccion="Chile"
+      />
+
+      {/* Knowledge Assessment Modal */}
+      <KnowledgeAssessment
+        isOpen={showAssessment}
+        onClose={() => setShowAssessment(false)}
+        jurisdiccion="Chile"
+      />
+
+      {/* Mind Map Generator Modal */}
+      <MindMapGenerator
+        isOpen={showMindMap}
+        onClose={() => setShowMindMap(false)}
+        jurisdiccion="Chile"
+      />
+
+      {/* Oral Debate Mode Modal */}
+      <OralDebateMode
+        isOpen={showOralDebate}
+        onClose={() => setShowOralDebate(false)}
+        ramo={modoActual.nombre}
+        jurisdiccion="Chile"
+      />
     </div>
   );
 }

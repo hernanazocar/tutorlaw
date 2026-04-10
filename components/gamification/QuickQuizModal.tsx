@@ -116,7 +116,7 @@ export function QuickQuizModal({ isOpen, onClose }: QuickQuizModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-2 sm:p-4">
-      <div className="bg-white rounded-xl max-w-lg w-full max-h-[95vh] sm:max-h-[85vh] overflow-y-auto">
+      <div className="bg-white rounded-xl max-w-2xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="sticky top-0 bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 rounded-t-xl">
           <div className="flex items-center justify-between mb-3">

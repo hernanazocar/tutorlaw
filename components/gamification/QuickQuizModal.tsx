@@ -116,21 +116,21 @@ export function QuickQuizModal({ isOpen, onClose }: QuickQuizModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-xl max-w-lg w-full max-h-[85vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-t-2xl">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold">⚡ Quick Quiz</h2>
+        <div className="sticky top-0 bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 rounded-t-xl">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-bold">⚡ Quick Quiz</h2>
             <button
               onClick={onClose}
-              className="text-white/80 hover:text-white text-2xl"
+              className="text-white/80 hover:text-white text-xl"
             >
               ×
             </button>
           </div>
 
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center gap-4">
+          <div className="flex items-center justify-between text-xs">
+            <div className="flex items-center gap-3">
               <span>
                 Pregunta {currentQuestion + 1}/{SAMPLE_QUESTIONS.length}
               </span>
@@ -145,7 +145,7 @@ export function QuickQuizModal({ isOpen, onClose }: QuickQuizModalProps) {
           </div>
 
           {/* Progress Bar */}
-          <div className="mt-4 h-2 bg-white/20 rounded-full overflow-hidden">
+          <div className="mt-3 h-1.5 bg-white/20 rounded-full overflow-hidden">
             <div
               className="h-full bg-white transition-all duration-300"
               style={{ width: `${((currentQuestion + 1) / SAMPLE_QUESTIONS.length) * 100}%` }}
@@ -154,11 +154,11 @@ export function QuickQuizModal({ isOpen, onClose }: QuickQuizModalProps) {
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-4">
           {!isFinished ? (
             <>
               {/* Question */}
-              <h3 className="text-xl font-bold text-[#212529] mb-6">
+              <h3 className="text-base font-bold text-[#212529] mb-4">
                 {question.question}
               </h3>
 

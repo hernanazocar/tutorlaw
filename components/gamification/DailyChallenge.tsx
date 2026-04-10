@@ -157,36 +157,35 @@ export function DailyChallenge({ isOpen, onClose, jurisdiccion }: DailyChallenge
 
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+      <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[85vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="bg-gradient-to-r from-amber-500 to-orange-600 text-white p-6">
+        <div className="bg-gradient-to-r from-amber-500 to-orange-600 text-white p-4">
           <div className="flex justify-between items-start">
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <TargetIcon className="w-6 h-6" />
-                <h2 className="text-2xl font-bold">Desafío Diario</h2>
+              <div className="flex items-center gap-2 mb-1">
+                <TargetIcon className="w-5 h-5" />
+                <h2 className="text-lg font-bold">Desafío Diario</h2>
               </div>
-              <p className="text-amber-100 text-sm">
+              <p className="text-amber-100 text-xs">
                 {new Date().toLocaleDateString('es-ES', {
                   weekday: 'long',
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
+                  day: 'numeric',
+                  month: 'short'
                 })}
               </p>
             </div>
             <button
               onClick={onClose}
-              className="text-white hover:bg-white/20 rounded-lg p-2 transition-colors"
+              className="text-white hover:bg-white/20 rounded-lg p-1.5 transition-colors"
             >
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-4">
           {loading ? (
             <div className="flex items-center justify-center py-12">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
@@ -194,8 +193,8 @@ export function DailyChallenge({ isOpen, onClose, jurisdiccion }: DailyChallenge
           ) : challenge ? (
             <div>
               {/* Challenge Info */}
-              <div className="flex items-center gap-3 mb-6">
-                <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+              <div className="flex items-center gap-2 mb-4">
+                <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${
                   challenge.dificultad === 'fácil'
                     ? 'bg-green-100 text-green-700'
                     : challenge.dificultad === 'medio'
@@ -204,26 +203,26 @@ export function DailyChallenge({ isOpen, onClose, jurisdiccion }: DailyChallenge
                 }`}>
                   {challenge.dificultad.toUpperCase()}
                 </span>
-                <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold">
+                <span className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs font-bold">
                   {challenge.ramo}
                 </span>
-                <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-bold">
+                <span className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full text-xs font-bold">
                   +{challenge.dificultad === 'fácil' ? 15 : challenge.dificultad === 'medio' ? 25 : 40} XP
                 </span>
               </div>
 
               {/* Question */}
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <div className="mb-4">
+                <h3 className="text-base font-semibold text-gray-900 mb-3">
                   {challenge.pregunta}
                 </h3>
 
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {challenge.opciones.map((opcion, index) => {
                     const isSelected = selectedAnswer === index;
                     const isCorrectAnswer = index === challenge.respuestaCorrecta;
 
-                    let buttonClass = 'w-full text-left px-4 py-3 rounded-lg border-2 transition-all ';
+                    let buttonClass = 'w-full text-left px-3 py-2 rounded-lg border-2 transition-all text-sm ';
 
                     if (hasAnswered) {
                       if (isCorrectAnswer) {
@@ -267,11 +266,11 @@ export function DailyChallenge({ isOpen, onClose, jurisdiccion }: DailyChallenge
 
               {/* Result */}
               {hasAnswered && (
-                <div className={`rounded-lg p-4 ${
+                <div className={`rounded-lg p-3 ${
                   isCorrect ? 'bg-green-50 border-2 border-green-200' : 'bg-blue-50 border-2 border-blue-200'
                 }`}>
                   <div className="flex items-center gap-2 mb-2">
-                    <div className={`text-2xl ${isCorrect ? '🎉' : '💡'}`}>
+                    <div className={`text-xl ${isCorrect ? '🎉' : '💡'}`}>
                       {isCorrect ? '🎉' : '💡'}
                     </div>
                     <h4 className={`font-bold ${

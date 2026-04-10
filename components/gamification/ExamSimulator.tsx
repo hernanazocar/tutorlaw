@@ -151,18 +151,18 @@ export function ExamSimulator({ isOpen, onClose, ramo, jurisdiccion }: ExamSimul
 
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+      <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[85vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-6">
+        <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4">
           <div className="flex justify-between items-start">
             <div>
-              <h2 className="text-2xl font-bold mb-1">Simulador de Examen</h2>
-              <p className="text-purple-100">{config.ramo}</p>
+              <h2 className="text-lg font-bold mb-1">Simulador de Examen</h2>
+              <p className="text-purple-100 text-sm">{config.ramo}</p>
             </div>
             {step === 'exam' && (
               <div className="text-right">
-                <div className="text-3xl font-bold">{formatTime(timeLeft)}</div>
-                <div className="text-sm text-purple-100">Tiempo restante</div>
+                <div className="text-2xl font-bold">{formatTime(timeLeft)}</div>
+                <div className="text-xs text-purple-100">Tiempo restante</div>
               </div>
             )}
           </div>
@@ -171,16 +171,16 @@ export function ExamSimulator({ isOpen, onClose, ramo, jurisdiccion }: ExamSimul
         <div className="flex-1 overflow-y-auto">
           {/* Configuración */}
           {step === 'config' && (
-            <div className="p-8">
-              <div className="space-y-6">
+            <div className="p-5">
+              <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-xs font-semibold text-gray-700 mb-1.5">
                     Número de preguntas
                   </label>
                   <select
                     value={config.numPreguntas}
                     onChange={(e) => setConfig({ ...config, numPreguntas: Number(e.target.value) })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   >
                     <option value={5}>5 preguntas</option>
                     <option value={10}>10 preguntas</option>
@@ -190,13 +190,13 @@ export function ExamSimulator({ isOpen, onClose, ramo, jurisdiccion }: ExamSimul
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-xs font-semibold text-gray-700 mb-1.5">
                     Duración del examen
                   </label>
                   <select
                     value={config.duracionMinutos}
                     onChange={(e) => setConfig({ ...config, duracionMinutos: Number(e.target.value) })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   >
                     <option value={15}>15 minutos</option>
                     <option value={30}>30 minutos</option>
@@ -205,9 +205,9 @@ export function ExamSimulator({ isOpen, onClose, ramo, jurisdiccion }: ExamSimul
                   </select>
                 </div>
 
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <h3 className="font-semibold text-blue-900 mb-2">Instrucciones</h3>
-                  <ul className="text-sm text-blue-700 space-y-1">
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                  <h3 className="font-semibold text-sm text-blue-900 mb-1.5">Instrucciones</h3>
+                  <ul className="text-xs text-blue-700 space-y-0.5">
                     <li>• El examen simulará condiciones reales con tiempo límite</li>
                     <li>• Puedes navegar entre preguntas antes de finalizar</li>
                     <li>• Ganarás XP por cada respuesta correcta</li>
@@ -216,17 +216,17 @@ export function ExamSimulator({ isOpen, onClose, ramo, jurisdiccion }: ExamSimul
                 </div>
               </div>
 
-              <div className="flex gap-3 mt-8">
+              <div className="flex gap-3 mt-5">
                 <button
                   onClick={onClose}
-                  className="flex-1 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-semibold"
+                  className="flex-1 px-4 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-semibold"
                 >
                   Cancelar
                 </button>
                 <button
                   onClick={generateExam}
                   disabled={loading}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 font-semibold disabled:opacity-50"
+                  className="flex-1 px-4 py-2 text-sm bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 font-semibold disabled:opacity-50"
                 >
                   {loading ? 'Generando...' : 'Comenzar Examen'}
                 </button>

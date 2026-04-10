@@ -348,7 +348,7 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex h-screen bg-[#f8f9fa] overflow-hidden">
+    <div className="flex h-screen md:h-screen bg-[#f8f9fa] overflow-hidden" style={{ height: '100dvh' }}>
       {/* Backdrop para mobile */}
       {sidebarOpen && (
         <div
@@ -634,7 +634,7 @@ export default function ChatPage() {
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto p-2 sm:p-4">
+        <div className="flex-1 overflow-y-auto p-2 sm:p-4 pb-20 md:pb-4">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center max-w-lg mx-auto px-4">
               <div className="mb-3 sm:mb-4">
@@ -711,8 +711,8 @@ export default function ChatPage() {
           )}
         </div>
 
-        {/* Input Area - Sticky bottom */}
-        <div className="bg-white border-t border-[#e9ecef] p-2 sm:p-3 safe-area-inset-bottom">
+        {/* Input Area - Fixed bottom on mobile, normal on desktop */}
+        <div className="fixed md:relative bottom-0 left-0 right-0 bg-white border-t border-[#e9ecef] p-2 sm:p-3 safe-area-inset-bottom z-10">
           <div className="max-w-3xl mx-auto px-2 sm:px-0">
             <div className="relative">
               <QuickTemplates

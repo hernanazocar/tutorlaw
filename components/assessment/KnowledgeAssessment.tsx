@@ -200,8 +200,8 @@ export function KnowledgeAssessment({ isOpen, onClose, jurisdiccion }: Knowledge
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[85vh] overflow-hidden flex flex-col">
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-2 sm:p-4">
+      <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[95vh] sm:max-h-[85vh] overflow-hidden flex flex-col">
         {/* Header */}
         <div className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white p-4">
           <div className="flex justify-between items-start">

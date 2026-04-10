@@ -348,9 +348,17 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex h-screen bg-[#f8f9fa]">
-      {/* Sidebar */}
-      <div className={`${sidebarOpen ? 'w-64' : 'w-0'} transition-all duration-300 bg-white border-r border-[#e9ecef] flex flex-col overflow-hidden shadow-sm`}>
+    <div className="flex h-screen bg-[#f8f9fa] overflow-hidden">
+      {/* Backdrop para mobile */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-30 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar - Overlay en mobile, fijo en desktop */}
+      <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 ${!sidebarOpen && 'md:w-0'} ${sidebarOpen && 'md:w-64'} fixed md:relative inset-y-0 left-0 z-40 w-64 transition-all duration-300 bg-white border-r border-[#e9ecef] flex flex-col overflow-hidden shadow-lg md:shadow-sm`}>
         {/* Header Sidebar */}
         <div className="p-4 border-b border-[#e9ecef] bg-gradient-to-br from-blue-50 to-white">
           <Logo size="sm" showText={true} />
@@ -581,32 +589,38 @@ export default function ChatPage() {
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <div className="bg-white border-b border-[#e9ecef] p-3 flex items-center gap-3">
+        <div className="bg-white border-b border-[#e9ecef] p-2 md:p-3 flex items-center gap-2 md:gap-3">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-1.5 hover:bg-[#f8f9fa] rounded-lg transition-colors"
+            className="p-1.5 hover:bg-[#f8f9fa] rounded-lg transition-colors flex-shrink-0"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <path d="M3 12h18M3 6h18M3 18h18" strokeWidth="2" strokeLinecap="round"/>
             </svg>
           </button>
-          <div className="flex-1">
-            <h1 className="font-bold text-base text-[#212529]">{modoActual.nombre}</h1>
-            <p className="text-xs text-[#6c757d]">{modoActual.descripcion}</p>
+          <div className="flex-1 min-w-0">
+            <h1 className="font-bold text-sm md:text-base text-[#212529] truncate">{modoActual.nombre}</h1>
+            <p className="text-xs text-[#6c757d] hidden sm:block truncate">{modoActual.descripcion}</p>
           </div>
 
-          <TeacherModeToggle mode={teacherMode} onChange={setTeacherMode} />
+          <div className="hidden md:block flex-shrink-0">
+            <TeacherModeToggle mode={teacherMode} onChange={setTeacherMode} />
+          </div>
 
-          {/* Progreso */}
-          <div className="flex items-center gap-3">
-            <LevelBadge />
-            <StreakCounter />
+          {/* Progreso - más pequeño en mobile */}
+          <div className="flex items-center gap-1.5 md:gap-3 flex-shrink-0">
+            <div className="scale-75 md:scale-100 origin-right">
+              <LevelBadge />
+            </div>
+            <div className="scale-75 md:scale-100 origin-right">
+              <StreakCounter />
+            </div>
           </div>
 
           {messages.length > 0 && (
             <button
               onClick={handleExportPDF}
-              className="flex items-center gap-2 px-3 py-1.5 text-sm text-[#0066ff] hover:bg-[#e6f0ff] rounded-lg transition-colors"
+              className="hidden sm:flex items-center gap-2 px-3 py-1.5 text-sm text-[#0066ff] hover:bg-[#e6f0ff] rounded-lg transition-colors flex-shrink-0"
               title="Exportar a PDF"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -614,13 +628,13 @@ export default function ChatPage() {
                 <polyline points="7 10 12 15 17 10" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 <line x1="12" y1="15" x2="12" y2="3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <span className="hidden sm:inline">PDF</span>
+              <span>PDF</span>
             </button>
           )}
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-4">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center max-w-lg mx-auto">
               <div className="mb-4">
@@ -698,25 +712,25 @@ export default function ChatPage() {
         </div>
 
         {/* Input Area */}
-        <div className="bg-white border-t border-[#e9ecef] p-3">
+        <div className="bg-white border-t border-[#e9ecef] p-2 sm:p-3">
           <div className="max-w-3xl mx-auto">
             <div className="relative">
               <QuickTemplates
                 visible={showTemplates}
                 onSelectTemplate={handleSelectTemplate}
               />
-              <div className="flex gap-2">
+              <div className="flex gap-1.5 sm:gap-2">
                 {/* Templates Button */}
                 <button
                   onClick={() => setShowTemplates(!showTemplates)}
-                  className={`p-2.5 rounded-lg transition-colors ${
+                  className={`p-2 sm:p-2.5 rounded-lg transition-colors ${
                     showTemplates
                       ? 'bg-[#0066ff] text-white'
                       : 'bg-[#f8f9fa] text-[#6c757d] hover:bg-[#e9ecef]'
                   }`}
                   title="Templates rápidos"
                 >
-                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </button>
@@ -724,7 +738,7 @@ export default function ChatPage() {
                 {/* Voice Button */}
                 <button
                   onClick={isListening ? stopVoiceRecognition : startVoiceRecognition}
-                  className={`p-2.5 rounded-lg transition-colors ${
+                  className={`p-2 sm:p-2.5 rounded-lg transition-colors ${
                     isListening
                       ? 'bg-red-500 text-white animate-pulse'
                       : 'bg-[#f8f9fa] text-[#6c757d] hover:bg-[#e9ecef]'
@@ -732,7 +746,7 @@ export default function ChatPage() {
                   title={isListening ? 'Detener grabación' : 'Dictar con voz'}
                   disabled={loading}
                 >
-                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     <path d="M19 10v2a7 7 0 0 1-14 0v-2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     <line x1="12" y1="19" x2="12" y2="23" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -748,7 +762,7 @@ export default function ChatPage() {
                   onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
                   onFocus={() => setShowTemplates(false)}
                   placeholder={`Escribe tu ${modoActual.id === 'caso' ? 'caso' : 'pregunta'}...`}
-                  className="flex-1 px-4 py-2.5 text-sm bg-[#f8f9fa] border border-[#e9ecef] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0066ff] focus:border-transparent text-[#212529] placeholder-[#6c757d]"
+                  className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 text-sm bg-[#f8f9fa] border border-[#e9ecef] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0066ff] focus:border-transparent text-[#212529] placeholder-[#6c757d]"
                   disabled={loading}
                 />
 
@@ -756,9 +770,12 @@ export default function ChatPage() {
                 <button
                   onClick={handleSend}
                   disabled={loading || !input.trim()}
-                  className="px-6 py-2.5 bg-[#0066ff] text-white rounded-lg text-sm font-semibold hover:bg-[#0052cc] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="px-4 sm:px-6 py-2 sm:py-2.5 bg-[#0066ff] text-white rounded-lg text-sm font-semibold hover:bg-[#0052cc] disabled:opacity-50 disabled:cursor-not-allowed transition-colors whitespace-nowrap"
                 >
-                  {loading ? 'Pensando...' : 'Enviar'}
+                  <span className="hidden sm:inline">{loading ? 'Pensando...' : 'Enviar'}</span>
+                  <svg className="w-5 h-5 sm:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
                 </button>
               </div>
             </div>

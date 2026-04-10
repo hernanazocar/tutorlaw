@@ -33,28 +33,28 @@ export function YearSelector() {
   if (!selectedYear) {
     // Modal inicial para seleccionar año
     return (
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-        <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full p-6">
-          <div className="text-center mb-6">
-            <AcademicCapIcon className="w-16 h-16 mx-auto mb-3 text-blue-600" />
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">¡Bienvenido a TutorLaw!</h2>
-            <p className="text-gray-600">Selecciona tu nivel para personalizar tu experiencia</p>
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3 sm:p-4">
+        <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full p-4 sm:p-6 max-h-[95vh] overflow-y-auto">
+          <div className="text-center mb-4 sm:mb-6">
+            <AcademicCapIcon className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2 sm:mb-3 text-blue-600" />
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2">¡Bienvenido a TutorLaw!</h2>
+            <p className="text-sm sm:text-base text-gray-600">Selecciona tu nivel para personalizar tu experiencia</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-96 overflow-y-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3 max-h-[60vh] overflow-y-auto">
             {YEARS.map((year) => (
               <button
                 key={year.id}
                 onClick={() => setSelectedYear(year.id)}
-                className={`p-4 rounded-lg border-2 border-gray-200 hover:border-blue-400 hover:shadow-md transition-all text-left bg-gradient-to-br ${year.color} text-white`}
+                className={`p-3 sm:p-4 rounded-lg border-2 border-gray-200 hover:border-blue-400 hover:shadow-md transition-all text-left bg-gradient-to-br ${year.color} text-white`}
               >
-                <div className="font-bold text-lg mb-1">{year.name}</div>
-                <div className="text-sm opacity-90">{year.description}</div>
+                <div className="font-bold text-base sm:text-lg mb-0.5 sm:mb-1">{year.name}</div>
+                <div className="text-xs sm:text-sm opacity-90">{year.description}</div>
               </button>
             ))}
           </div>
 
-          <p className="text-xs text-gray-500 text-center mt-4">
+          <p className="text-xs text-gray-500 text-center mt-3 sm:mt-4">
             Podrás cambiar esto más tarde desde tu perfil
           </p>
         </div>

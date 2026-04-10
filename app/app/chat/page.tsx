@@ -634,16 +634,16 @@ export default function ChatPage() {
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto p-3 sm:p-4">
+        <div className="flex-1 overflow-y-auto p-2 sm:p-4">
           {messages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-center max-w-lg mx-auto">
-              <div className="mb-4">
-                <modoActual.icon className="w-20 h-20 mx-auto text-gray-400" />
+            <div className="flex flex-col items-center justify-center h-full text-center max-w-lg mx-auto px-4">
+              <div className="mb-3 sm:mb-4">
+                <modoActual.icon className="w-16 h-16 sm:w-20 sm:h-20 mx-auto text-gray-400" />
               </div>
-              <h2 className="text-xl font-bold text-[#212529] mb-2">
+              <h2 className="text-lg sm:text-xl font-bold text-[#212529] mb-2">
                 Modo {modoActual.nombre}
               </h2>
-              <p className="text-sm text-[#6c757d] mb-4">
+              <p className="text-xs sm:text-sm text-[#6c757d] mb-4">
                 {modoActual.id === 'tutor' && 'Explicaciones paso a paso con ejemplos y artículos del código'}
                 {modoActual.id === 'socratico' && 'Aprende pensando con el método socrático'}
                 {modoActual.id === 'caso' && 'Resuelve casos con metodología IRAC'}
@@ -654,14 +654,14 @@ export default function ChatPage() {
               </p>
             </div>
           ) : (
-            <div className="max-w-3xl mx-auto space-y-3">
+            <div className="max-w-3xl mx-auto space-y-2 sm:space-y-3">
               {messages.map((message, index) => (
                 <div
                   key={index}
-                  className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                  className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} px-2 sm:px-0`}
                 >
                   <div
-                    className={`max-w-[85%] rounded-xl px-4 py-3 ${
+                    className={`max-w-[90%] sm:max-w-[85%] rounded-xl px-3 sm:px-4 py-2 sm:py-3 ${
                       message.role === 'user'
                         ? 'bg-[#0066ff] text-white'
                         : 'bg-white border border-[#e9ecef] text-[#212529]'
@@ -711,9 +711,9 @@ export default function ChatPage() {
           )}
         </div>
 
-        {/* Input Area */}
-        <div className="bg-white border-t border-[#e9ecef] p-2 sm:p-3">
-          <div className="max-w-3xl mx-auto">
+        {/* Input Area - Sticky bottom */}
+        <div className="bg-white border-t border-[#e9ecef] p-2 sm:p-3 safe-area-inset-bottom">
+          <div className="max-w-3xl mx-auto px-2 sm:px-0">
             <div className="relative">
               <QuickTemplates
                 visible={showTemplates}
@@ -795,8 +795,10 @@ export default function ChatPage() {
         </div>
       </div>
 
-      {/* Suggestions Panel */}
-      <SuggestionsPanel mode={modoActual.id} onSelectSuggestion={handleSelectSuggestion} />
+      {/* Suggestions Panel - Solo desktop */}
+      <div className="hidden lg:block">
+        <SuggestionsPanel mode={modoActual.id} onSelectSuggestion={handleSelectSuggestion} />
+      </div>
 
       {/* Quick Quiz Modal */}
       <QuickQuizModal isOpen={showQuiz} onClose={() => setShowQuiz(false)} />

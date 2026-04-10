@@ -22,19 +22,19 @@ export function QuickTemplates({ onSelectTemplate, visible }: QuickTemplatesProp
   if (!visible) return null;
 
   return (
-    <div className="absolute bottom-full left-0 right-0 mb-2 bg-white border border-[#e9ecef] rounded-lg shadow-lg p-2">
+    <div className="absolute bottom-full left-0 right-0 mb-2 bg-white border border-[#e9ecef] rounded-lg shadow-lg p-2 max-h-[60vh] overflow-y-auto">
       <div className="text-xs font-semibold text-[#6c757d] mb-2 px-2">
         📝 Templates rápidos
       </div>
-      <div className="grid grid-cols-2 gap-1">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-1">
         {TEMPLATES.map((template, index) => (
           <button
             key={index}
             onClick={() => onSelectTemplate(template.suffix)}
-            className="flex items-center gap-2 px-3 py-2 text-left text-sm bg-[#f8f9fa] hover:bg-[#e9ecef] rounded-lg transition-colors"
+            className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 text-left text-xs sm:text-sm bg-[#f8f9fa] hover:bg-[#e9ecef] rounded-lg transition-colors"
           >
-            <span>{template.icon}</span>
-            <span className="text-[#212529] font-medium">{template.label}</span>
+            <span className="text-sm sm:text-base">{template.icon}</span>
+            <span className="text-[#212529] font-medium truncate">{template.label}</span>
           </button>
         ))}
       </div>

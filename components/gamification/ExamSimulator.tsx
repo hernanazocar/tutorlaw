@@ -86,16 +86,23 @@ export function ExamSimulator({ isOpen, onClose, ramo, jurisdiccion }: ExamSimul
         }),
       });
 
-      if (!response.ok) throw new Error('Error generando examen');
-
       const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Error generando examen');
+      }
+
+      if (!data.preguntas || data.preguntas.length === 0) {
+        throw new Error('No se generaron preguntas');
+      }
+
       setQuestions(data.preguntas);
       setAnswers(new Array(data.preguntas.length).fill(null));
       setTimeLeft(config.duracionMinutos * 60);
       setStep('exam');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error:', error);
-      alert('Error al generar el examen. Intenta de nuevo.');
+      alert(`Error: ${error.message || 'No se pudo generar el examen. Intenta con menos preguntas.'}`);
     } finally {
       setLoading(false);
     }

@@ -2,6 +2,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const runtime = 'edge';
+export const maxDuration = 60; // 60 seconds timeout
 
 type GenerateExamRequest = {
   ramo: string;
@@ -14,6 +15,8 @@ export async function POST(req: NextRequest) {
     const body: GenerateExamRequest = await req.json();
     const { ramo, jurisdiccion, numPreguntas } = body;
 
+    console.log('[Exam Generator] Request:', { ramo, jurisdiccion, numPreguntas });
+
     if (!ramo || !numPreguntas) {
       return NextResponse.json(
         { error: 'Faltan parámetros requeridos' },
@@ -23,6 +26,7 @@ export async function POST(req: NextRequest) {
 
     const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) {
+      console.error('[Exam Generator] API key missing');
       return NextResponse.json(
         { error: 'API key no configurada' },
         { status: 500 }
@@ -58,6 +62,7 @@ REGLAS:
       model: 'claude-sonnet-4-20250514',
       max_tokens: 8192,
       temperature: 1,
+      system: 'Eres un generador de exámenes de Derecho. SIEMPRE respondes con JSON válido puro, sin texto adicional, markdown, ni código.',
       messages: [
         {
           role: 'user',
@@ -68,8 +73,11 @@ REGLAS:
 
     const content = message.content[0];
     if (content.type !== 'text') {
+      console.error('[Exam Generator] Non-text response from API');
       throw new Error('Respuesta inesperada de la API');
     }
+
+    console.log('[Exam Generator] Raw response length:', content.text.length);
 
     // Extraer JSON de la respuesta
     let jsonText = content.text.trim();
@@ -87,7 +95,7 @@ REGLAS:
     try {
       examData = JSON.parse(jsonText);
     } catch (parseError) {
-      console.error('Error parsing JSON:', jsonText);
+      console.error('[Exam Generator] Error parsing JSON:', jsonText.substring(0, 200));
       return NextResponse.json(
         { error: 'Respuesta de IA no válida. Intenta de nuevo.' },
         { status: 500 }
@@ -96,7 +104,7 @@ REGLAS:
 
     // Validar estructura
     if (!examData.preguntas || !Array.isArray(examData.preguntas)) {
-      console.error('Invalid exam data structure:', examData);
+      console.error('[Exam Generator] Invalid exam data structure:', examData);
       return NextResponse.json(
         { error: 'Formato de examen inválido' },
         { status: 500 }
@@ -113,12 +121,14 @@ REGLAS:
       }
     });
 
+    console.log('[Exam Generator] Success! Generated', examData.preguntas.length, 'questions');
     return NextResponse.json(examData);
 
   } catch (error: any) {
-    console.error('Error generando examen:', error);
+    console.error('[Exam Generator] Error:', error);
+    console.error('[Exam Generator] Error stack:', error?.stack);
     return NextResponse.json(
-      { error: error.message || 'Error al generar el examen' },
+      { error: error.message || 'Error al generar el examen. Intenta con menos preguntas o vuelve a intentar.' },
       { status: 500 }
     );
   }

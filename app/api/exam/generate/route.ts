@@ -31,32 +31,28 @@ export async function POST(req: NextRequest) {
 
     const client = new Anthropic({ apiKey });
 
-    const prompt = `Genera un examen de ${numPreguntas} preguntas para estudiantes de Derecho sobre ${ramo} en ${jurisdiccion}.
+    const prompt = `Genera exactamente ${numPreguntas} preguntas de opción múltiple sobre ${ramo} del Derecho de ${jurisdiccion}.
 
-REQUISITOS ESTRICTOS:
-1. Cada pregunta debe tener exactamente 4 opciones de respuesta
-2. Las preguntas deben ser desafiantes pero justas para estudiantes de pregrado
-3. Incluye una explicación clara de la respuesta correcta
-4. Las preguntas deben cubrir diferentes temas dentro de ${ramo}
-5. Usa casos prácticos cuando sea posible
+RESPONDE ÚNICAMENTE CON JSON VÁLIDO EN ESTE FORMATO:
 
-FORMATO DE RESPUESTA (JSON válido):
 {
   "preguntas": [
     {
       "id": 1,
-      "pregunta": "texto de la pregunta",
+      "pregunta": "¿Cuál es...?",
       "opciones": ["opción A", "opción B", "opción C", "opción D"],
       "respuestaCorrecta": 0,
-      "explicacion": "explicación detallada de por qué esta es la respuesta correcta"
+      "explicacion": "La respuesta correcta es A porque..."
     }
   ]
 }
 
-IMPORTANTE:
-- respuestaCorrecta debe ser un número del 0 al 3 (índice del array opciones)
-- Genera exactamente ${numPreguntas} preguntas
-- Responde SOLO con el JSON, sin texto adicional`;
+REGLAS:
+- Exactamente ${numPreguntas} preguntas
+- 4 opciones por pregunta
+- respuestaCorrecta: número 0-3 (índice del array)
+- NO incluyas markdown, código o texto fuera del JSON
+- Solo el objeto JSON puro`;
 
     const message = await client.messages.create({
       model: 'claude-sonnet-4-20250514',
@@ -78,17 +74,33 @@ IMPORTANTE:
     // Extraer JSON de la respuesta
     let jsonText = content.text.trim();
 
+    // Remover markdown si existe
+    jsonText = jsonText.replace(/```json\n?/g, '').replace(/```\n?/g, '');
+
     // Intentar encontrar el JSON si hay texto adicional
     const jsonMatch = jsonText.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       jsonText = jsonMatch[0];
     }
 
-    const examData = JSON.parse(jsonText);
+    let examData;
+    try {
+      examData = JSON.parse(jsonText);
+    } catch (parseError) {
+      console.error('Error parsing JSON:', jsonText);
+      return NextResponse.json(
+        { error: 'Respuesta de IA no válida. Intenta de nuevo.' },
+        { status: 500 }
+      );
+    }
 
     // Validar estructura
     if (!examData.preguntas || !Array.isArray(examData.preguntas)) {
-      throw new Error('Formato de examen inválido');
+      console.error('Invalid exam data structure:', examData);
+      return NextResponse.json(
+        { error: 'Formato de examen inválido' },
+        { status: 500 }
+      );
     }
 
     // Validar cada pregunta
@@ -103,10 +115,10 @@ IMPORTANTE:
 
     return NextResponse.json(examData);
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error generando examen:', error);
     return NextResponse.json(
-      { error: 'Error al generar el examen' },
+      { error: error.message || 'Error al generar el examen' },
       { status: 500 }
     );
   }
